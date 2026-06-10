@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Personal Loan - Premium Salaried</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0D1117;
+            --card: #1B2028;
+            --card-alt: #232A34;
+            --text: #FFFFFF;
+            --text-sec: #9CA3AF;
+            --text-muted: #6B7280;
+            --blue: #2E8BEF;
+            --cyan: #00D4FF;
+            --orange: #F59E0B;
+            --border: #2D3748;
+            --cta-start: #1E6CB5;
+            --cta-end: #4AABF0;
+            --cta-disabled: #1B3D5C;
+            --green: #10B981;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #000;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .phone {
+            width: 360px;
+            min-height: 100vh;
+            background: var(--bg);
+            position: relative;
+            overflow-x: hidden;
+        }
+        .screen { display: none; min-height: 100vh; flex-direction: column; animation: slideIn 0.3s ease; }
+        .screen.active { display: flex; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Header - Figma: 360x64, padding 20px, text at y=20 */
+        .hdr { display: flex; align-items: center; padding: 20px 20px 12px; gap: 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; min-height: 64px; }
+        .hdr .back { font-size: 22px; cursor: pointer; background: none; border: none; color: var(--text); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .hdr h1 { font-size: 20px; font-weight: 700; flex: 1; }
+        .hdr .help { width: 40px; height: 40px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #000; font-weight: 700; }
+
+        /* Progress - Figma: 320x14, at x=20, y=64 */
+        .prog { display: flex; gap: 4px; padding: 0 20px 16px; height: 14px; align-items: center; }
+        .prog span { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+        .prog span.done { background: var(--blue); }
+        .prog span.half { background: linear-gradient(90deg, var(--blue) 50%, var(--border) 50%); }
+
+        /* Content */
+        .cnt { padding: 0 20px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+        .cnt-pad { padding: 16px 20px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+        /* Footer CTA */
+        .ftr { padding: 16px 20px 24px; margin-top: auto; }
+        .cta { width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(90deg, var(--cta-start), var(--cta-end)); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; height: 47px; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; }
+        .cta:disabled { background: var(--cta-disabled); color: rgba(255,255,255,0.4); cursor: not-allowed; opacity: 0.7; }
+        .cta-ghost { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); }
+        .cta-muted { background: var(--cta-disabled); color: rgba(255,255,255,0.4); }
+
+        /* Card */
+        .card { background: var(--card); border-radius: 14px; padding: 16px; }
+        .card-b { border: 1px solid var(--border); }
+
+        /* Inputs - Figma: 320x50, label at offset (11, -7), border-radius 10px */
+        .inp { position: relative; margin-bottom: 20px; }
+        .inp label { position: absolute; top: -7px; left: 11px; font-size: 11px; color: var(--text-sec); background: var(--bg); padding: 0 6px; z-index: 1; }
+        .inp.in-card label { background: var(--card); }
+        .inp input, .inp select { width: 100%; padding: 15px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; font-family: inherit; outline: none; height: 50px; }
+        .inp input:focus { border-color: var(--cyan); }
+        .inp .act { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--cyan); font-size: 13px; font-weight: 600; }
+        .inp .hint { font-size: 12px; color: var(--text-sec); margin-top: 6px; padding-left: 2px; }
+
+        /* Chips - Figma: ~74-110px wide, 30px height */
+        .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+        .chip { padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border); font-size: 14px; color: var(--text); cursor: pointer; transition: 0.2s; background: transparent; font-family: inherit; height: 30px; display: inline-flex; align-items: center; }
+        .chip.sel { background: #fff; color: #000; border-color: #fff; font-weight: 500; }
+
+        /* Purpose Grid */
+        .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .pitem { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .pitem.sel { border-color: var(--cyan); background: rgba(34,211,238,0.04); }
+        .pitem .pi { width: 40px; height: 40px; border-radius: 50%; background: var(--card-alt); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .pitem .pl { font-size: 11px; text-align: center; color: var(--text-sec); line-height: 1.3; }
+
+        /* EMI */
+        .emi { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .emi.sel { border-color: var(--orange); background: rgba(245,158,11,0.12); }
+        .emi .t { font-size: 15px; font-weight: 600; }
+        .emi .s { font-size: 12px; color: var(--text-sec); }
+        .emi .a { font-size: 15px; font-weight: 600; text-align: right; }
+        .emi .i { font-size: 12px; color: var(--text-sec); text-align: right; }
+
+        /* Slider */
+        .sld { margin: 12px 0; }
+        .sld input[type=range] { width: 100%; height: 4px; -webkit-appearance: none; background: linear-gradient(90deg, var(--blue) 80%, var(--border) 80%); border-radius: 2px; outline: none; }
+        .sld input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); border: 3px solid #fff; cursor: pointer; }
+        .sld .labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sec); margin-top: 6px; }
+
+        /* Steps - Figma: number badges 25x25, step text at x=64 */
+        .steps { padding: 16px 0; }
+        .stp { display: flex; gap: 14px; margin-bottom: 20px; position: relative; }
+        .stp::after { content:''; position: absolute; left: 19px; top: 42px; width: 2px; height: calc(100% - 16px); background: var(--border); }
+        .stp:last-child::after { display: none; }
+        .stp .num { width: 40px; height: 40px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; z-index: 1; }
+        .stp .stxt h3 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+        .stp .stxt p { font-size: 13px; color: var(--text-sec); line-height: 1.4; }
+
+        /* Consent - Figma: checkbox 20x20, gap 30px from checkbox to text */
+        .con { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+        .con .chk { width: 20px; height: 20px; border-radius: 4px; background: var(--border); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 20px; transition: 0.2s; }
+        .con .chk.checked { background: var(--cyan); border-color: var(--cyan); }
+        .con .chk.checked::after { content: '✓'; color: #000; font-size: 12px; font-weight: 700; }
+        .con p { font-size: 13px; color: var(--text-sec); line-height: 1.5; }
+        .con a { color: var(--cyan); text-decoration: none; }
+
+        /* Summary */
+        .srow { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(45,55,72,0.5); }
+        .srow:last-child { border: none; }
+        .srow .l { font-size: 14px; color: var(--text-sec); }
+        .srow .v { font-size: 14px; font-weight: 600; }
+
+        /* Info Banner */
+        .ibanner { display: flex; gap: 12px; padding: 14px; border-radius: 10px; background: rgba(245,158,11,0.06); border: 1px solid rgba(217,119,6,0.4); }
+        .ibanner .ic { font-size: 18px; flex-shrink: 0; }
+        .ibanner p { font-size: 13px; color: var(--text-sec); line-height: 1.5; }
+
+        /* KYC */
+        .kyc-opt { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--border); margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
+        .kyc-opt.sel { border-color: var(--cyan); box-shadow: 0 0 16px rgba(34,211,238,0.08); }
+        .kyc-opt .ki { width: 54px; height: 54px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .kyc-opt .kt h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .kyc-opt .kt p { font-size: 13px; color: var(--text-sec); line-height: 1.4; }
+        .kyc-opt .badge { background: var(--orange); color: #000; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 8px; margin-left: auto; white-space: nowrap; }
+
+        /* Selfie */
+        .selfie-ring { width: 230px; height: 230px; border-radius: 50%; background: linear-gradient(135deg, #e0e7ff, #c7d2fe); display: flex; align-items: center; justify-content: center; font-size: 90px; border: 4px solid var(--blue); margin: 16px auto; }
+
+        /* Tips */
+        .tip { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+        .tip .tn { width: 24px; height: 24px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #000; flex-shrink: 0; }
+        .tip p { font-size: 14px; }
+
+        /* Auth Tabs */
+        .atabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .atab { padding: 10px 18px; border-radius: 20px; border: 1px solid var(--border); font-size: 14px; cursor: pointer; color: var(--text); background: transparent; font-family: inherit; }
+        .atab.sel { background: #fff; color: #000; border-color: #fff; font-weight: 500; }
+
+        /* Accordion */
+        .acc { border: 1px solid var(--border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; }
+        .acc-h { display: flex; justify-content: space-between; align-items: center; padding: 16px; cursor: pointer; }
+        .acc-h h3 { font-size: 15px; font-weight: 600; }
+        .acc-b { padding: 0 16px 16px; }
+
+        /* OTP */
+        .otp-row { display: flex; gap: 14px; justify-content: center; margin: 24px 0; }
+        .otp-input { width: 50px; height: 50px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); font-size: 20px; font-weight: 700; text-align: center; font-family: inherit; outline: none; }
+        .otp-input:focus { border-color: var(--blue); }
+
+        /* Accordion toggle */
+        .acc .acc-b { display: none; }
+        .acc.open .acc-b { display: block; }
+        .acc.open .acc-arrow { transform: rotate(180deg); }
+        .acc-arrow { transition: transform 0.2s; display: inline-block; }
+
+        /* FinProtect toggle */
+        #finprotect-toggle.active { border-color: var(--cyan); background: rgba(34,211,238,0.08); }
+        #finprotect-toggle.active .fp-chk { background: var(--cyan); }
+        #finprotect-toggle.active .fp-chk::after { content: '✓'; color: #000; font-size: 11px; font-weight: 700; }
+
+        /* Success */
+        .s-hdr { background: linear-gradient(180deg, #c9a87c 0%, #b89060 40%, var(--bg) 100%); padding: 40px 20px; text-align: center; }
+        .s-hdr .ic { font-size: 80px; }
+        .s-cnt { text-align: center; padding: 20px; }
+        .s-cnt h2 { font-size: 26px; font-weight: 800; color: var(--cyan); margin-bottom: 8px; }
+        .s-cnt .dl { color: var(--orange); font-size: 14px; font-weight: 600; margin-top: 14px; display: inline-block; text-decoration: none; }
+
+        /* Stars */
+        .stars { display: flex; gap: 12px; justify-content: center; margin: 14px 0; }
+        .stars .star { font-size: 34px; cursor: pointer; color: var(--border); }
+        .stars .star.on { color: var(--orange); }
+
+        .helpline { position: absolute; right: 20px; top: 16px; width: 44px; height: 44px; cursor: pointer; z-index: 20; }
+        .helpline img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; display: block; }
+
+        .link { color: var(--cyan); font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; }
+        .sec-title { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+        .disc { font-size: 12px; color: var(--text-muted); text-align: center; margin: 10px 0; line-height: 1.5; }
+
+        /* Map placeholder */
+        .map { width: 100%; height: 320px; border-radius: 14px; background: linear-gradient(135deg, #1a3a4a, #2d5a5a); position: relative; display: flex; align-items: center; justify-content: center; font-size: 42px; }
+        .map .bot { position: absolute; bottom: 0; left: 0; right: 0; background: var(--card); padding: 16px 20px; border-radius: 14px 14px 0 0; }
+    </style>
+</head>
+<body>
+<div class="phone">
+
+<!-- S1: Home Banner -->
+<div class="screen active" id="s1">
+    <div class="hdr"><span style="font-size:14px;color:var(--text-sec)">Welcome, Ramachandran</span></div>
+    <div class="cnt" style="padding-top:16px">
+        <div style="background:linear-gradient(135deg,#1a3a5c,#0d2340);border-radius:16px;padding:24px;min-height:340px;position:relative;overflow:hidden">
+            <div style="font-size:13px;color:var(--cyan);font-weight:600;margin-bottom:6px">PERSONAL LOAN</div>
+            <h2 style="font-size:24px;font-weight:800;margin-bottom:10px;line-height:1.3">Never be short<br>of cash</h2>
+            <p style="font-size:13px;color:var(--text-sec);max-width:200px;line-height:1.5">Get periodic disbursals at your preferred frequency.</p>
+            <div style="position:absolute;right:16px;top:30px;font-size:64px;opacity:0.5">💰</div>
+            <div style="position:absolute;bottom:24px;left:24px;right:24px">
+                <button class="cta" onclick="go(2)">Apply Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- S2: Consent & Steps -->
+<div class="screen" id="s2">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(1)">←</button><h1>Just 5 easy steps</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="cnt">
+        <img src="assets/consent_screen.png" alt="5 Steps Journey" style="width:100%;border-radius:12px;margin-bottom:12px">
+        <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>I agree that the loan applied from DMI Finance Private Limited will be governed by the <a href="#">Loan application Undertaking</a></p></div>
+        <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To process my application, I give my express consent to DMI Finance for the below:<br>• To obtain my credit report(s) from credit bureaus.<br>• To fetch required information for KYC from approved agencies including UIDAI.</p></div>
+        <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To reach out to me with personalized offers on products & services through SMS, WhatsApp, RCS, Email and telephonic calls/bots.</p></div>
+    </div>
+    <div class="ftr"><button class="cta" id="consent-btn" onclick="go(3)" disabled>Proceed</button></div>
+</div>
+
+<!-- S3: Offer View -->
+<div class="screen" id="s3">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(2)">←</button><h1>Here's your Offer</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="half"></span><span></span><span></span></div>
+    <div class="cnt">
+        <div style="text-align:center;margin-bottom:12px">
+            <h2 style="font-size:22px;font-weight:700">Congratulations Ramachandran!</h2>
+            <p style="font-size:13px;color:var(--text-sec);margin-top:6px">You're eligible for a loan amount of</p>
+            <p id="hero-amount" style="font-size:42px;font-weight:800;margin-top:8px;letter-spacing:-1px">₹2,00,000</p>
+        </div>
+        <div class="card">
+            <ul style="font-size:13px;color:var(--text-sec);padding-left:18px;margin-bottom:16px;line-height:2">
+                <li>Choose you loan amount as per your immediate needs.</li>
+                <li>Choose you repayment tenor as per the EMI you can pay.</li>
+            </ul>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <span class="sec-title" style="margin:0">Select Amount</span>
+                <span id="slider-amount" style="font-size:16px;font-weight:700">₹2,00,000</span>
+            </div>
+            <div class="sld"><input type="range" min="10000" max="200000" value="200000" step="5000" id="amount-slider" oninput="updateSliderAmount(this)"><div class="labels"><span>₹10,000</span><span>₹2,00,000</span></div></div>
+            <p class="sec-title" style="margin-top:16px">Select EMI</p>
+            <div class="emi sel"><div><div class="t">18 Months</div><div class="s">repayment option</div></div><div><div class="a">₹12,456 EMI</div><div class="i">(interest ₹5,156)</div></div></div>
+            <div style="text-align:center;margin-bottom:10px"><span style="font-size:11px;color:var(--orange);font-weight:600">Recommended</span></div>
+            <div class="emi"><div><div class="t">24 Months</div><div class="s">repayment option</div></div><div><div class="a">₹8,970 EMI</div><div class="i">(interest ₹7,140)</div></div></div>
+            <div class="emi"><div><div class="t">30 Months</div><div class="s">repayment option</div></div><div><div class="a">₹7,287 EMI</div><div class="i">(interest ₹9,129)</div></div></div>
+        </div>
+        <p class="disc">*ROI of 2% p.m. calculated on an annualised interest rate of 24% on reducing balance</p>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(4)">Continue</button></div>
+</div>
+
+<!-- S4: e-Verify Income -->
+<div class="screen" id="s4">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(3)">←</button><h1>e-Verify your Income</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="half"></span><span></span><span></span><span></span></div>
+    <div class="cnt" style="align-items:center">
+        <div style="margin:24px 0;width:220px;height:160px;display:flex;align-items:center;justify-content:center"><img src="assets/e-verify_income.png" alt="e-Verify" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+        <p style="font-size:14px;color:var(--text-sec);line-height:1.6;text-align:left;width:100%">Use the below method to securely share your primary bank statement for personalised loan offers from us.</p>
+        <div class="kyc-opt sel" style="width:100%">
+            <div class="ki" style="background:#2d3a4a;font-size:28px">⚙️</div>
+            <div class="kt"><h4>Link Bank A/c with OTP</h4><p>With Account Aggregator, an RBI approved process, allow your bank to share your details by entering an OTP</p></div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(5)">Continue</button></div>
+</div>
+
+<!-- S5: AA Stack Loading -->
+<div class="screen" id="s5">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(4)">←</button><h1>Bank statements</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="cnt" style="align-items:center;justify-content:center;text-align:center;flex:1">
+        <div style="width:240px;height:240px;display:flex;align-items:center;justify-content:center"><img src="assets/hourglass.png" alt="Loading" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(6)">Continue</button></div>
+</div>
+
+<!-- S6: Few more details -->
+<div class="screen" id="s6">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(5)">←</button><h1>Just a few more details</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="half"></span><span></span></div>
+    <div class="cnt">
+        <div><p class="sec-title">Where do you currently live?</p><div class="chips"><button class="chip sel">Own House</button><button class="chip">Rented</button><button class="chip">Hostel / PG</button></div></div>
+        <div style="margin-top:20px"><p class="sec-title">What is your highest educational qualification?</p><div class="chips"><button class="chip">Matriculate</button><button class="chip sel">Intermediate</button><button class="chip">Bachelors</button><button class="chip">Masters</button></div></div>
+        <div style="margin-top:20px">
+            <p class="sec-title">What is your purpose of taking the loan?</p>
+            <div class="pgrid">
+                <div class="pitem"><div class="pi">💒</div><div class="pl">Wedding/<br>Event</div></div>
+                <div class="pitem sel"><div class="pi">🏠</div><div class="pl">Home<br>Renovation</div></div>
+                <div class="pitem"><div class="pi">💼</div><div class="pl">Business<br>Requirement</div></div>
+                <div class="pitem"><div class="pi">🎓</div><div class="pl">Education</div></div>
+                <div class="pitem"><div class="pi">🏥</div><div class="pl">Medical<br>Emergency</div></div>
+                <div class="pitem"><div class="pi">✈️</div><div class="pl">Travel</div></div>
+                <div class="pitem"><div class="pi">📋</div><div class="pl">Repayment of<br>Other Loan</div></div>
+                <div class="pitem"><div class="pi">👤</div><div class="pl">Personal<br>Use</div></div>
+                <div class="pitem"><div class="pi">→</div><div class="pl">Other</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(7)">Continue</button></div>
+</div>
+
+<!-- S7: Confirm Offer -->
+<div class="screen" id="s7">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(6)">←</button><h1>Confirm your Offer</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="half"></span><span></span><span></span></div>
+    <div class="cnt">
+        <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec)">TERM LOAN</p>
+        <div class="card">
+            <div class="srow"><span class="l">Amount</span><span class="v">₹50,000</span></div>
+            <div class="srow"><span class="l">Duration</span><span class="v">30 Months</span></div>
+            <div class="srow"><span class="l">EMI</span><span class="v">₹3,822</span></div>
+            <div class="srow"><span class="l">Processing Fees</span><div><span class="v">₹5,099</span><br><span style="font-size:12px;color:var(--text-muted);text-decoration:line-through">₹5,499</span></div></div>
+            <div style="background:rgba(168,130,60,0.2);border-radius:10px;padding:12px;margin-top:14px;display:flex;align-items:center;gap:10px">
+                <img src="assets/coin.png" alt="coin" style="width:28px;height:28px;object-fit:contain">
+                <p style="font-size:13px">Congratulations! You've saved ₹400 on your processing fee.</p>
+            </div>
+        </div>
+        <p class="disc">*ROI of 2% p.m. calculated on an annualised interest rate of 24% on reducing balance</p>
+        <div class="ibanner"><span class="ic">💡</span><div><p>The offer cannot be changed later in the application process.</p><a href="#" class="link" onclick="go(3);return false" style="margin-top:8px;display:inline-block">Go Back to Edit ›</a></div></div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(8)">Continue</button></div>
+</div>
+
+<!-- S8: KYC -->
+<div class="screen" id="s8">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(7)">←</button><h1>Verify your KYC</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="half"></span><span></span></div>
+    <div class="cnt" style="align-items:center">
+        <div style="width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#6366f1);display:flex;align-items:center;justify-content:center;position:relative;margin:16px 0">
+            <span style="font-size:46px">👥</span><span style="position:absolute;top:-4px;right:-4px;font-size:26px">✅</span>
+        </div>
+        <h3 style="font-size:20px;margin-bottom:20px">Complete your KYC with</h3>
+        <div class="kyc-opt sel" style="width:100%"><div class="ki" style="background:#fee2e2">🔐</div><div class="kt"><h4>Aadhaar OTP</h4><p>Use your Aadhaar linked mobile number and OTP to verify</p></div><span class="badge">Recommended</span></div>
+        <div class="kyc-opt" style="width:100%"><div class="ki" style="background:#e0e7ff">📁</div><div class="kt"><h4>Digilocker</h4><p>Use your Digilocker security PIN to allow access to KYC documents</p></div></div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(9)">Start your KYC</button></div>
+</div>
+
+<!-- S9: Selfie -->
+<div class="screen" id="s9">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(8)">←</button><h1>Let's take a Selfie</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span></span></div>
+    <div class="cnt">
+        <div class="selfie-ring">👩</div>
+        <p style="font-size:16px;font-weight:600;margin-bottom:12px">Ramachandran, Don't miss these tips!</p>
+        <div class="card">
+            <div class="tip"><span class="tn">1</span><p>Position your head within the circle</p></div>
+            <div class="tip"><span class="tn">2</span><p>Have proper lighting around yourself</p></div>
+            <div class="tip"><span class="tn">3</span><p>Do not wear glasses, spectacles or a cap</p></div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(11)">Proceed</button></div>
+</div>
+
+<!-- S10: REMOVED (Address Map) - Selfie now goes directly to Address Form -->
+
+<!-- S11: Address Form -->
+<div class="screen" id="s11">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(9)">←</button><h1>We need your Address</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="half"></span><span></span></div>
+    <div class="cnt">
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px">
+            <div><p style="font-size:12px;color:var(--text-sec)">JP Nagar</p><p style="font-size:14px">2nd street, JP Nagar, 560078, Bangalore</p></div>
+            <span style="cursor:pointer;color:var(--cyan);font-size:13px;font-weight:600;border:1px solid var(--cyan);padding:4px 12px;border-radius:6px">Edit</span>
+        </div>
+        <div class="inp"><label style="background:var(--bg)">House No / Plot No / Building No</label><input value="HDFC Bank"></div>
+        <div class="inp"><label style="background:var(--bg)">Locality, Area, Landmark</label><input value="HDFC Bank"></div>
+        <div class="inp"><label style="background:var(--bg)">Post Office, Village, Town</label><input value="HDFC Bank"></div>
+        <div class="inp"><label style="background:var(--bg)">PIN Code</label><input value="103002"></div>
+        <div class="inp"><label style="background:var(--bg)">District</label><input value="Bhopal"></div>
+        <div class="inp"><label style="background:var(--bg)">State</label><input value="Madhya Pradesh"></div>
+        <div class="ibanner"><span class="ic">💡</span><p>Please provide your correct residential address, as it may be verified before loan disbursal</p></div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(12)">Confirm Address</button></div>
+</div>
+
+<!-- S12: Setup Auto-pay -->
+<div class="screen" id="s12">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(11)">←</button><h1>Setup Auto-pay</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="half"></span></div>
+    <div class="cnt">
+        <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="font-size:15px;font-weight:600">Things you should know while setting up an e-Mandate</h3><span>^</span></div>
+            <p style="font-size:13px;color:var(--text-sec);margin-bottom:14px">e-Mandate allows your EMI to be debited automatically to avoid late fees and penalties</p>
+            <div class="tip"><span class="tn">1</span><p style="font-size:13px">Ensure that the name on the below bank account matches your KYC name.</p></div>
+            <div class="tip"><span class="tn">2</span><p style="font-size:13px">The account details mentioned below will be used to deposit the loan amount.</p></div>
+        </div>
+        <p class="sec-title">Choose a mode of authorization</p>
+        <div class="atabs"><button class="atab sel">Debit Card</button><button class="atab">UPI</button><button class="atab">Net Banking</button></div>
+        <div class="inp"><label style="background:var(--bg)">Select Bank</label><select id="bank-select" onchange="document.getElementById('bank-display').value=this.value;validateAllCTAs()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select Bank --</option><option>HDFC Bank</option><option>State Bank of India</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Mahindra Bank</option><option>Punjab National Bank</option><option>Bank of Baroda</option><option>Canara Bank</option><option>Union Bank of India</option><option>IndusInd Bank</option><option>Yes Bank</option><option>IDBI Bank</option><option>Bank of India</option><option>Central Bank of India</option><option>Indian Overseas Bank</option><option>UCO Bank</option><option>Federal Bank</option><option>South Indian Bank</option><option>Bandhan Bank</option><option>RBL Bank</option></select></div>
+        <div class="inp"><label style="background:var(--bg)">Savings Account Number</label><input placeholder="" oninput="validateAllCTAs()"></div>
+        <div class="inp"><label style="background:var(--bg)">IFSC Code</label><input placeholder="" oninput="validateAllCTAs()"><span class="act">Find IFSC</span></div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(13)">Continue</button></div>
+</div>
+
+<!-- S13: Finprotect Gold -->
+<div class="screen" id="s13">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(12)">←</button><h1>Finprotect Gold</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+    <div class="cnt" style="align-items:center">
+        <div class="card" style="text-align:center;padding:32px 20px;width:100%">
+            <div style="font-size:52px;margin-bottom:16px">🛡️</div>
+            <h3 style="font-size:18px;margin-bottom:10px">Secure your loan with 'Finprotect Gold'</h3>
+            <p style="font-size:14px;color:var(--text-sec);line-height:1.6">Secure your family's future and avoid repayment worries with Finprotect Gold. Find more details <a href="#" class="link">here</a>.</p>
+        </div>
+    </div>
+    <div class="ftr" style="display:flex;flex-direction:column;gap:12px"><button class="cta" onclick="go(14)">Accept</button><button class="cta cta-ghost" onclick="go(14)">Deny</button></div>
+</div>
+
+<!-- S14: Reconfirm -->
+<div class="screen" id="s14">
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(13)">←</button><h1>Reconfirm your details</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+    <div class="cnt">
+        <div class="card">
+            <div class="srow"><span class="l">Loan Amount</span><span class="v">₹1,09,000</span></div>
+            <div class="srow"><span class="l">Loan Tenure</span><span class="v">24 months</span></div>
+            <div class="srow"><span class="l">EMI Amount</span><span class="v">₹9,504</span></div>
+            <div class="srow"><span class="l">Processing Fee (inc. GST)</span><span class="v">₹800</span></div>
+            <div class="srow"><span class="l">Finprotect Gold Fee</span><span class="v">₹3,999</span></div>
+            <div class="srow"><span class="l" style="font-weight:600;color:#fff">Net Disbursal</span><span class="v">₹99,001</span></div>
+            <div id="finprotect-toggle" onclick="this.classList.toggle('active')" style="background:rgba(34,211,238,0.04);border-radius:10px;padding:12px;margin-top:12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border:2px solid transparent;transition:0.2s">
+                <div class="fp-chk" style="width:18px;height:18px;border-radius:4px;min-width:18px;background:var(--border);display:flex;align-items:center;justify-content:center;transition:0.2s"></div>
+                <div><p style="font-size:13px;font-weight:600">Secure your loan with 'Finprotect Gold'</p><p style="font-size:12px;color:var(--text-sec);margin-top:4px">Secure your family's future and avoid repayment worries with Finprotect Gold. Find more details <a href="#" class="link">here</a>.</p></div>
+            </div>
+        </div>
+        <div class="acc"><div class="acc-h" onclick="this.parentElement.classList.toggle('open')"><h3>Have a promo code?</h3><span class="acc-arrow">▼</span></div><div class="acc-b"><div style="display:flex;gap:12px;align-items:center"><input placeholder="Enter offer code" value="" style="flex:1;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:14px;font-family:inherit" oninput="validateAllCTAs()"><button style="color:var(--cyan);font-weight:600;font-size:14px;background:none;border:none;cursor:pointer">Apply</button></div></div></div>
+        <div class="acc"><div class="acc-h" onclick="this.parentElement.classList.toggle('open')"><h3>e-Mandate details</h3><span class="acc-arrow">▼</span></div><div class="acc-b"><div class="srow"><span class="l">Bank Name</span><span class="v">HDFC BANK</span></div><div class="srow"><span class="l">Account Number</span><span class="v">*******418</span></div><div class="srow"><span class="l">IFSC Code</span><span class="v">HDFC0000553</span></div><div class="srow"><span class="l">Account Holder Name</span><span class="v">Ramachandran Signania</span></div></div></div>
+        <div class="ibanner"><span class="ic">💡</span><p>Your EMI will be deducted from the linked bank account on the 5th of every month</p></div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(15)">Confirm</button></div>
+</div>
+
+<!-- S15: Loan T&C OTP -->
+<div class="screen" id="s15">
+    <div class="hdr"><button class="back" onclick="go(14)">←</button><h1>Reconfirm your details</h1></div>
+    <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+    <div class="cnt" style="align-items:center">
+        <div class="card" style="text-align:center;padding:32px 24px;width:100%;margin-top:20px">
+            <h2 style="font-size:20px;font-weight:700;margin-bottom:10px">Enter OTP</h2>
+            <p style="font-size:13px;color:var(--text-sec)">Please enter the OTP sent to ******7896 to accept the Loan <a href="#" class="link">Terms and Conditions</a></p>
+            <div class="otp-row"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this)" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this)" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this)" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this)" onkeydown="otpBack(event,this)"></div>
+            <p style="font-size:13px;color:var(--text-sec)">⏱ 00:09s</p>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" onclick="go(16)">Submit</button></div>
+</div>
+
+<!-- S16: Success -->
+<div class="screen" id="s16">
+    <div style="width:100%;padding:0"><img src="assets/success_celebration.png" alt="Success" style="width:100%;display:block"></div>
+    <div class="s-cnt">
+        <div class="stars"><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span></div>
+        <div class="inp" style="margin-top:12px"><input placeholder="What did you like the most?" style="border-radius:10px"></div>
+    </div>
+    <div class="ftr" style="display:flex;flex-direction:column;gap:12px"><button class="cta cta-muted" disabled>Submit Rating</button><a href="#" class="link" style="text-align:center" onclick="go(1);return false">Go To Homepage ›</a></div>
+    <div class="s-cnt" style="display:none"></div>
+</div>
+
+</div>
+
+<script>
+function go(n){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('s'+n).classList.add('active');
+    window.scrollTo(0,0);
+    // Re-validate CTAs on screen change
+    setTimeout(validateAllCTAs, 50);
+}
+
+// Slider amount update
+function updateSliderAmount(slider) {
+    const val = parseInt(slider.value);
+    const formatted = '₹' + val.toLocaleString('en-IN');
+    document.getElementById('slider-amount').textContent = formatted;
+    document.getElementById('hero-amount').textContent = formatted;
+    // Update slider track fill
+    const pct = ((val - 10000) / (200000 - 10000)) * 100;
+    slider.style.background = 'linear-gradient(90deg, var(--blue) ' + pct + '%, var(--border) ' + pct + '%)';
+}
+
+// Consent validation
+function validateConsent() {
+    const checkboxes = document.querySelectorAll('#s2 .con .chk');
+    const allChecked = Array.from(checkboxes).every(c => c.classList.contains('checked'));
+    document.getElementById('consent-btn').disabled = !allChecked;
+}
+
+// OTP auto-advance
+function otpNext(el) {
+    if (el.value.length === 1 && el.nextElementSibling) {
+        el.nextElementSibling.focus();
+    }
+}
+function otpBack(e, el) {
+    if (e.key === 'Backspace' && el.value === '' && el.previousElementSibling) {
+        el.previousElementSibling.focus();
+    }
+}
+
+// CTA Disable/Enable Logic
+function validateAllCTAs() {
+    // S2: Consent - needs all 3 checkboxes checked (they start checked in this demo)
+    // S3: Offer - needs EMI selected (starts with selection)
+    // S4: e-Verify - always enabled (info screen)
+    // S5: Loading - always enabled (loading screen)
+    // S6: Few details - needs at least one chip per group + one purpose item
+    validateScreen6();
+    // S11: Address - pre-filled so enabled by default, disable if cleared
+    validateScreen11();
+    // S12: Auto-pay - needs bank, account, IFSC filled
+    validateScreen12();
+    // S14: Reconfirm - always enabled (summary)
+    // S15: OTP - needs all 4 dots (simulated as always ready)
+    // S16: Success - feedback optional
+    validateScreen16();
+}
+
+function validateScreen6() {
+    const s = document.getElementById('s6');
+    if (!s) return;
+    const btn = s.querySelector('.ftr .cta');
+    const hasLiving = s.querySelector('.chips .chip.sel') !== null;
+    const allChipGroups = s.querySelectorAll('.chips');
+    let allSelected = true;
+    allChipGroups.forEach(g => { if (!g.querySelector('.chip.sel')) allSelected = false; });
+    const hasPurpose = s.querySelector('.pitem.sel') !== null;
+    btn.disabled = !(allSelected && hasPurpose);
+}
+
+function validateScreen11() {
+    const s = document.getElementById('s11');
+    if (!s) return;
+    const btn = s.querySelector('.ftr .cta');
+    const inputs = s.querySelectorAll('.inp input');
+    let allFilled = true;
+    inputs.forEach(inp => { if (inp.value.trim() === '') allFilled = false; });
+    btn.disabled = !allFilled;
+}
+
+function validateScreen12() {
+    const s = document.getElementById('s12');
+    if (!s) return;
+    const btn = s.querySelector('.ftr .cta');
+    const select = s.querySelector('select');
+    const inputs = s.querySelectorAll('.inp input');
+    let allFilled = select && select.value !== '';
+    inputs.forEach(inp => { if (inp.value.trim() === '') allFilled = false; });
+    btn.disabled = !allFilled;
+}
+
+function validateScreen16() {
+    const s = document.getElementById('s16');
+    if (!s) return;
+    const btn = s.querySelector('.ftr .cta:not(.cta-ghost)');
+    if (!btn) return;
+    // Submit Rating requires at least one star
+    const hasStar = s.querySelector('.star.on') !== null;
+    btn.disabled = !hasStar;
+}
+
+// Real-time validation on input
+document.querySelectorAll('.inp input').forEach(inp => {
+    inp.addEventListener('input', () => {
+        validateAllCTAs();
+    });
+});
+
+// Chips
+document.querySelectorAll('.chips').forEach(g=>{g.addEventListener('click',e=>{if(e.target.classList.contains('chip')){g.querySelectorAll('.chip').forEach(c=>c.classList.remove('sel'));e.target.classList.add('sel');validateAllCTAs();}})});
+
+// Purpose
+document.querySelectorAll('.pitem').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.pitem').forEach(i=>i.classList.remove('sel'));p.classList.add('sel');validateAllCTAs();})});
+
+// EMI
+document.querySelectorAll('.emi').forEach(e=>{e.addEventListener('click',()=>{document.querySelectorAll('.emi').forEach(c=>c.classList.remove('sel'));e.classList.add('sel')})});
+
+// Auth tabs
+document.querySelectorAll('.atab').forEach(t=>{t.addEventListener('click',()=>{document.querySelectorAll('.atab').forEach(a=>a.classList.remove('sel'));t.classList.add('sel')})});
+
+// Stars
+document.querySelectorAll('.star').forEach((s,i)=>{s.addEventListener('click',()=>{document.querySelectorAll('.star').forEach((x,j)=>{x.textContent=j<=i?'★':'☆';x.classList.toggle('on',j<=i)});validateAllCTAs();})});
+
+// KYC
+document.querySelectorAll('.kyc-opt').forEach(o=>{o.addEventListener('click',()=>{o.parentElement.querySelectorAll('.kyc-opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel')})});
+
+// Initial validation
+document.addEventListener('DOMContentLoaded', () => {
+    validateAllCTAs();
+    // Disable S12 auto-pay button on load (empty fields)
+    const s12btn = document.querySelector('#s12 .ftr .cta');
+    if (s12btn) s12btn.disabled = true;
+    // S16 submit rating disabled until stars clicked
+    const s16btn = document.querySelector('#s16 .ftr .cta');
+    if (s16btn) s16btn.disabled = true;
+});
+</script>
+</body>
+</html>
+
+
+
