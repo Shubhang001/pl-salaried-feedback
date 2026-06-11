@@ -258,10 +258,10 @@
         </div>
         <p class="disc">*ROI of 2% p.m. calculated on an annualised interest rate of 24% on reducing balance</p>
     </div>
-    <div class="ftr"><button class="cta" onclick="go(4)">Continue</button></div>
+    <div class="ftr"><button class="cta" onclick="go(7)">Continue</button></div>
 </div>
 
-<!-- S4: e-Verify Income -->
+<!-- S4: e-Verify Income (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="s4">
     <div class="hdr" style="position:relative"><button class="back" onclick="go(3)">←</button><h1>e-Verify your Income</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
     <div class="prog"><span class="done"></span><span class="half"></span><span></span><span></span><span></span></div>
@@ -275,8 +275,9 @@
     </div>
     <div class="ftr"><button class="cta" onclick="go(5)">Continue</button></div>
 </div>
+-->
 
-<!-- S5: AA Stack Loading -->
+<!-- S5: AA Stack Loading (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="s5">
     <div class="hdr" style="position:relative"><button class="back" onclick="go(4)">←</button><h1>Bank statements</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
     <div class="cnt" style="align-items:center;justify-content:center;text-align:center;flex:1">
@@ -284,6 +285,7 @@
     </div>
     <div class="ftr"><button class="cta" onclick="go(7)">Continue</button></div>
 </div>
+-->
 
 <!-- S6: Few more details (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="s6">
@@ -313,7 +315,7 @@
 
 <!-- S7: Confirm Offer -->
 <div class="screen" id="s7">
-    <div class="hdr" style="position:relative"><button class="back" onclick="go(5)">←</button><h1>Confirm your Offer</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(3)">←</button><h1>Confirm your Offer</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
     <div class="prog"><span class="done"></span><span class="done"></span><span class="half"></span><span></span><span></span></div>
     <div class="cnt">
         <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec)">TERM LOAN</p>
@@ -367,23 +369,85 @@
 <!-- S10: REMOVED (Address Map) - Selfie now goes directly to Address Form -->
 
 <!-- S11: Address Form -->
+<!-- S11: Address Page (Redesigned - Two sections: Residential + Office) -->
 <div class="screen" id="s11">
     <div class="hdr" style="position:relative"><button class="back" onclick="go(9)">←</button><h1>We need your Address</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
     <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="half"></span><span></span></div>
     <div class="cnt">
-        <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px">
-            <div><p style="font-size:12px;color:var(--text-sec)">JP Nagar</p><p style="font-size:14px">2nd street, JP Nagar, 560078, Bangalore</p></div>
-            <span style="cursor:pointer;color:var(--cyan);font-size:13px;font-weight:600;border:1px solid var(--cyan);padding:4px 12px;border-radius:6px">Edit</span>
+
+        <!-- SECTION 1: Residential Address -->
+        <p class="sec-title">Residential Address</p>
+
+        <div id="res-cards-container">
+            <div class="card addr-card res-card" onclick="selectResCard(this)" ondblclick="editAddrCard(0,'res')" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
+                <p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 1</p>
+                <p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">Flat 402, Wing B, Sunrise Apartments, JP Nagar 2nd Phase, Bangalore, Karnataka - 560078</p>
+            </div>
+
+            <div class="card addr-card res-card" onclick="selectResCard(this)" ondblclick="editAddrCard(1,'res')" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
+                <p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 2</p>
+                <p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">12, MG Road, Indiranagar, Bangalore, Karnataka - 560038</p>
+            </div>
         </div>
-        <div class="inp"><label style="background:var(--bg)">House No / Plot No / Building No</label><input value="HDFC Bank"></div>
-        <div class="inp"><label style="background:var(--bg)">Locality, Area, Landmark</label><input value="HDFC Bank"></div>
-        <div class="inp"><label style="background:var(--bg)">Post Office, Village, Town</label><input value="HDFC Bank"></div>
-        <div class="inp"><label style="background:var(--bg)">PIN Code</label><input value="103002"></div>
-        <div class="inp"><label style="background:var(--bg)">District</label><input value="Bhopal"></div>
-        <div class="inp"><label style="background:var(--bg)">State</label><input value="Madhya Pradesh"></div>
-        <div class="ibanner"><span class="ic">💡</span><p>Please provide your correct residential address, as it may be verified before loan disbursal</p></div>
+
+        <div onclick="openAddrDrawer('res')" style="cursor:pointer;border:1px dashed var(--border);border-radius:14px;padding:14px 16px;text-align:center;transition:0.2s;margin-bottom:24px">
+            <span style="color:var(--cyan);font-size:14px;font-weight:600">+ Add Your Address</span>
+        </div>
+
+        <!-- SECTION 2: Office Address -->
+        <p class="sec-title">Office Address</p>
+
+        <div id="off-cards-container">
+            <div class="card addr-card off-card" onclick="selectOffCard(this)" ondblclick="editOfficeCard()" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
+                <p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">DMI Finance</p>
+                <p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">Express Building, 9-10, Bahadur Shah Zafar Marg, ITO, 110002, Central Delhi, Delhi</p>
+            </div>
+        </div>
+
+        <div onclick="openOfficeDrawer()" style="cursor:pointer;border:1px dashed var(--border);border-radius:14px;padding:14px 16px;text-align:center;transition:0.2s">
+            <span style="color:var(--cyan);font-size:14px;font-weight:600">+ Add Office Address</span>
+        </div>
+
     </div>
-    <div class="ftr"><button class="cta" onclick="go(12)">Confirm Address</button></div>
+    <div class="ftr"><button class="cta" id="addr-proceed-btn" onclick="go(12)" disabled>Proceed</button></div>
+</div>
+
+<!-- Address Drawer Overlay -->
+<div id="addr-drawer-overlay" onclick="closeAddrDrawer()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:100;transition:opacity 0.3s;opacity:0"></div>
+<!-- Address Drawer -->
+<div id="addr-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:360px;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;z-index:101;padding:0 20px 24px;transition:transform 0.3s ease;overflow-y:auto">
+    <div style="display:flex;justify-content:center;padding:12px 0 16px;cursor:grab" onmousedown="closeAddrDrawer()" ontouchstart="closeAddrDrawer()">
+        <div style="width:40px;height:4px;border-radius:2px;background:var(--border)"></div>
+    </div>
+    <h3 id="drawer-title" style="font-size:18px;font-weight:700;margin-bottom:20px">Add Your Address</h3>
+    <div class="inp"><label style="background:var(--bg)">House No / Plot No / Building No</label><input id="addr-house" oninput="validateDrawerCTA()" placeholder="Enter house/plot/building no"></div>
+    <div class="inp"><label style="background:var(--bg)">Locality, Area, Landmark</label><input id="addr-locality" oninput="validateDrawerCTA()" placeholder="Enter locality, area, landmark"></div>
+    <div class="inp"><label style="background:var(--bg)">Post Office, Village, Town</label><input id="addr-postoffice" oninput="validateDrawerCTA()" placeholder="Enter post office, village, town"></div>
+    <div class="inp"><label style="background:var(--bg)">PIN Code</label><input id="addr-pin" type="tel" maxlength="6" oninput="autoFetchDistrict();validateDrawerCTA()" placeholder="Enter 6-digit PIN code"></div>
+    <div class="inp"><label style="background:var(--bg)">District, State</label><input id="addr-district-state" readonly style="color:var(--text-sec);cursor:not-allowed" placeholder="Auto-fetched from PIN code"></div>
+    <div style="padding-top:8px"><button class="cta" id="drawer-proceed-btn" onclick="drawerProceed()" disabled>Proceed</button></div>
+</div>
+
+<!-- Office Address Drawer Overlay -->
+<div id="off-drawer-overlay" onclick="closeOfficeDrawer()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:100;transition:opacity 0.3s;opacity:0"></div>
+<!-- Office Address Drawer -->
+<div id="off-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:360px;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;z-index:101;padding:0 20px 24px;transition:transform 0.3s ease;overflow-y:auto">
+    <div style="display:flex;justify-content:center;padding:12px 0 16px;cursor:grab" onmousedown="closeOfficeDrawer()" ontouchstart="closeOfficeDrawer()">
+        <div style="width:40px;height:4px;border-radius:2px;background:var(--border)"></div>
+    </div>
+    <h3 id="off-drawer-title" style="font-size:18px;font-weight:700;margin-bottom:20px">Add Office Address</h3>
+    <!-- Company Name Searchable Dropdown -->
+    <div class="inp" style="position:relative">
+        <label style="background:var(--bg)">Company Name</label>
+        <input id="off-company" oninput="filterCompanies()" onfocus="showCompanyDropdown()" placeholder="Search company name" autocomplete="off">
+        <div id="company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div>
+    </div>
+    <div class="inp"><label style="background:var(--bg)">Shop No / Plot No / Building No</label><input id="off-house" oninput="validateOffDrawerCTA()" placeholder="Enter shop/plot/building no"></div>
+    <div class="inp"><label style="background:var(--bg)">Locality, Area, Landmark</label><input id="off-locality" oninput="validateOffDrawerCTA()" placeholder="Enter locality, area, landmark"></div>
+    <div class="inp"><label style="background:var(--bg)">Post Office, Village, Town</label><input id="off-postoffice" oninput="validateOffDrawerCTA()" placeholder="Enter post office, village, town"></div>
+    <div class="inp"><label style="background:var(--bg)">PIN Code</label><input id="off-pin" type="tel" maxlength="6" oninput="autoFetchOffDistrict();validateOffDrawerCTA()" placeholder="Enter 6-digit PIN code"></div>
+    <div class="inp"><label style="background:var(--bg)">District, State</label><input id="off-district-state" readonly style="color:var(--text-sec);cursor:not-allowed" placeholder="Auto-fetched from PIN code"></div>
+    <div style="padding-top:8px"><button class="cta" id="off-drawer-proceed-btn" onclick="offDrawerProceed()" disabled>Proceed</button></div>
 </div>
 
 <!-- S12: Setup Auto-pay -->
@@ -543,13 +607,8 @@ function validateScreen6() {
 }
 
 function validateScreen11() {
-    const s = document.getElementById('s11');
-    if (!s) return;
-    const btn = s.querySelector('.ftr .cta');
-    const inputs = s.querySelectorAll('.inp input');
-    let allFilled = true;
-    inputs.forEach(inp => { if (inp.value.trim() === '') allFilled = false; });
-    btn.disabled = !allFilled;
+    // Address page uses two-section card selection
+    updateMainProceed();
 }
 
 function validateScreen12() {
@@ -630,6 +689,325 @@ document.querySelectorAll('.star').forEach((s,i)=>{s.addEventListener('click',()
 
 // KYC
 document.querySelectorAll('.kyc-opt').forEach(o=>{o.addEventListener('click',()=>{o.parentElement.querySelectorAll('.kyc-opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel')})});
+
+// Address page functions
+var resSelected = false;
+var offSelected = false;
+var currentDrawerType = 'res'; // 'res' or 'off'
+
+function selectResCard(el) {
+    document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    el.classList.add('sel');
+    el.style.borderColor = 'var(--cyan)';
+    resSelected = true;
+    updateMainProceed();
+}
+
+function selectOffCard(el) {
+    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    el.classList.add('sel');
+    el.style.borderColor = 'var(--cyan)';
+    offSelected = true;
+    updateMainProceed();
+}
+
+function updateMainProceed() {
+    document.getElementById('addr-proceed-btn').disabled = !(resSelected && offSelected);
+}
+
+function openAddrDrawer(type) {
+    currentDrawerType = type;
+    editingCardEl = null;
+    document.getElementById('addr-house').value = '';
+    document.getElementById('addr-locality').value = '';
+    document.getElementById('addr-postoffice').value = '';
+    document.getElementById('addr-pin').value = '';
+    document.getElementById('addr-district-state').value = '';
+    document.getElementById('drawer-title').textContent = type === 'off' ? 'Add Office Address' : 'Add Your Address';
+    document.getElementById('drawer-proceed-btn').disabled = true;
+    showDrawer();
+}
+
+var addrData = [
+    { house: 'Flat 402, Wing B', locality: 'Sunrise Apartments, JP Nagar 2nd Phase', post: 'JP Nagar', pin: '560001', district: 'Bengaluru, Karnataka' },
+    { house: '12', locality: 'MG Road, Indiranagar', post: 'Indiranagar', pin: '560038', district: 'Central Delhi, Delhi' }
+];
+
+function editAddrCard(index, type) {
+    currentDrawerType = type;
+    var cards = document.querySelectorAll('#res-cards-container .res-card');
+    editingCardEl = cards[index] || null;
+    var d = addrData[index];
+    document.getElementById('addr-house').value = d.house;
+    document.getElementById('addr-locality').value = d.locality;
+    document.getElementById('addr-postoffice').value = d.post;
+    document.getElementById('addr-pin').value = d.pin;
+    document.getElementById('addr-district-state').value = d.district;
+    document.getElementById('drawer-title').textContent = type === 'off' ? 'Edit Office Address' : 'Edit Address';
+    showDrawer();
+    validateDrawerCTA();
+}
+
+function showDrawer() {
+    var overlay = document.getElementById('addr-drawer-overlay');
+    var drawer = document.getElementById('addr-drawer');
+    overlay.style.display = 'block';
+    drawer.style.display = 'block';
+    setTimeout(function() { overlay.style.opacity = '1'; }, 10);
+}
+
+function closeAddrDrawer() {
+    var overlay = document.getElementById('addr-drawer-overlay');
+    var drawer = document.getElementById('addr-drawer');
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; drawer.style.display = 'none'; }, 300);
+}
+
+var pinMap = {'400001':'Mumbai, Maharashtra','110001':'New Delhi, Delhi','560001':'Bengaluru, Karnataka','600001':'Chennai, Tamil Nadu','500001':'Hyderabad, Telangana','700001':'Kolkata, West Bengal','411001':'Pune, Maharashtra','380001':'Ahmedabad, Gujarat'};
+
+function autoFetchDistrict() {
+    var pin = document.getElementById('addr-pin').value.trim();
+    var distField = document.getElementById('addr-district-state');
+    if (pin.length === 6) {
+        distField.value = pinMap[pin] ? pinMap[pin] : 'Central Delhi, Delhi';
+    } else {
+        distField.value = '';
+    }
+}
+
+function validateDrawerCTA() {
+    var h = document.getElementById('addr-house').value.trim();
+    var l = document.getElementById('addr-locality').value.trim();
+    var p = document.getElementById('addr-postoffice').value.trim();
+    var pin = document.getElementById('addr-pin').value.trim();
+    var ds = document.getElementById('addr-district-state').value.trim();
+    document.getElementById('drawer-proceed-btn').disabled = !(h && l && p && pin && ds);
+}
+
+function drawerProceed() {
+    var h = document.getElementById('addr-house').value.trim();
+    var l = document.getElementById('addr-locality').value.trim();
+    var p = document.getElementById('addr-postoffice').value.trim();
+    var pin = document.getElementById('addr-pin').value.trim();
+    var ds = document.getElementById('addr-district-state').value.trim();
+    if (currentDrawerType === 'res') {
+        if (editingCardEl && editingCardEl.classList.contains('res-card')) {
+            editingCardEl.querySelector('.addr-card-title').textContent = 'Added Address';
+            editingCardEl.querySelector('.addr-card-body').textContent = h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds;
+        } else {
+            addResCard(h, l, p, pin, ds);
+        }
+        resSelected = true;
+    } else {
+        if (editingCardEl && editingCardEl.classList.contains('off-card')) {
+            editingCardEl.querySelector('.addr-card-title').textContent = 'Added Office';
+            editingCardEl.querySelector('.addr-card-body').textContent = h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds;
+        } else {
+            addOffCardFromRes(h, l, p, pin, ds);
+        }
+        offSelected = true;
+    }
+    editingCardEl = null;
+    closeAddrDrawer();
+    updateMainProceed();
+    if (resSelected && offSelected) { go(12); }
+}
+
+var editingCardEl = null;
+var editingOffCardEl = null;
+
+function addResCard(h, l, p, pin, ds) {
+    var container = document.getElementById('res-cards-container');
+    var card = document.createElement('div');
+    card.className = 'card addr-card res-card';
+    card.style.cssText = 'cursor:pointer;border:2px solid var(--cyan);transition:0.2s;padding:14px 16px;margin-bottom:12px';
+    card.innerHTML = '<p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Added Address</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p>';
+    card.onclick = function() { selectResCard(card); };
+    card.ondblclick = function() { editDynamicResCard(card, h, l, p, pin, ds); };
+    card.classList.add('sel');
+    document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    card.style.borderColor = 'var(--cyan)';
+    container.appendChild(card);
+}
+
+function editDynamicResCard(el, h, l, p, pin, ds) {
+    currentDrawerType = 'res';
+    editingCardEl = el;
+    document.getElementById('addr-house').value = h;
+    document.getElementById('addr-locality').value = l;
+    document.getElementById('addr-postoffice').value = p;
+    document.getElementById('addr-pin').value = pin;
+    document.getElementById('addr-district-state').value = ds;
+    document.getElementById('drawer-title').textContent = 'Edit Address';
+    showDrawer();
+    validateDrawerCTA();
+}
+
+function addOffCardFromRes(h, l, p, pin, ds) {
+    var container = document.getElementById('off-cards-container');
+    var card = document.createElement('div');
+    card.className = 'card addr-card off-card';
+    card.style.cssText = 'cursor:pointer;border:2px solid var(--cyan);transition:0.2s;padding:14px 16px;margin-bottom:12px';
+    card.innerHTML = '<p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Added Office</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p>';
+    card.onclick = function() { selectOffCard(card); };
+    card.ondblclick = function() { editDynamicOffCard(card, '', h, l, p, pin, ds); };
+    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    card.style.borderColor = 'var(--cyan)';
+    container.appendChild(card);
+}
+
+function editDynamicOffCard(el, co, h, l, p, pin, ds) {
+    editingOffCardEl = el;
+    document.getElementById('off-company').value = co;
+    document.getElementById('off-house').value = h;
+    document.getElementById('off-locality').value = l;
+    document.getElementById('off-postoffice').value = p;
+    document.getElementById('off-pin').value = pin;
+    document.getElementById('off-district-state').value = ds;
+    document.getElementById('off-drawer-title').textContent = 'Edit Office Address';
+    showOffDrawer();
+    validateOffDrawerCTA();
+}
+
+// Office Address Drawer functions
+var companyList = ['DMI Finance','Tata Consultancy Services','Infosys','Wipro','HCL Technologies','Reliance Industries','HDFC Bank','ICICI Bank','State Bank of India','Mahindra & Mahindra','Bajaj Finance','Larsen & Toubro','Accenture India','Cognizant','Tech Mahindra'];
+
+var companyAddrMap = {
+    'DMI Finance': { house:'Express Building, 9-10', locality:'Bahadur Shah Zafar Marg', post:'ITO', pin:'110002', district:'Central Delhi, Delhi' }
+};
+var genericAddr = { house:'Unit 101, Corporate Park', locality:'Sector 18, Noida', post:'Noida', pin:'201301', district:'Gautam Buddha Nagar, Uttar Pradesh' };
+
+function openOfficeDrawer() {
+    editingOffCardEl = null;
+    document.getElementById('off-company').value = '';
+    document.getElementById('off-house').value = '';
+    document.getElementById('off-locality').value = '';
+    document.getElementById('off-postoffice').value = '';
+    document.getElementById('off-pin').value = '';
+    document.getElementById('off-district-state').value = '';
+    document.getElementById('off-drawer-proceed-btn').disabled = true;
+    document.getElementById('off-drawer-title').textContent = 'Add Office Address';
+    showOffDrawer();
+}
+
+function editOfficeCard() {
+    var card = document.querySelector('#off-cards-container .off-card');
+    editingOffCardEl = card;
+    document.getElementById('off-company').value = 'DMI Finance';
+    document.getElementById('off-house').value = 'Express Building, 9-10';
+    document.getElementById('off-locality').value = 'Bahadur Shah Zafar Marg';
+    document.getElementById('off-postoffice').value = 'ITO';
+    document.getElementById('off-pin').value = '110002';
+    document.getElementById('off-district-state').value = 'Central Delhi, Delhi';
+    document.getElementById('off-drawer-title').textContent = 'Edit Office Address';
+    showOffDrawer();
+    validateOffDrawerCTA();
+}
+
+function showOffDrawer() {
+    var overlay = document.getElementById('off-drawer-overlay');
+    var drawer = document.getElementById('off-drawer');
+    overlay.style.display = 'block';
+    drawer.style.display = 'block';
+    setTimeout(function() { overlay.style.opacity = '1'; }, 10);
+}
+
+function closeOfficeDrawer() {
+    var overlay = document.getElementById('off-drawer-overlay');
+    var drawer = document.getElementById('off-drawer');
+    overlay.style.opacity = '0';
+    document.getElementById('company-dropdown').style.display = 'none';
+    setTimeout(function() { overlay.style.display = 'none'; drawer.style.display = 'none'; }, 300);
+}
+
+function showCompanyDropdown() { filterCompanies(); }
+
+function filterCompanies() {
+    var input = document.getElementById('off-company').value.trim().toLowerCase();
+    var dd = document.getElementById('company-dropdown');
+    var filtered = companyList.filter(function(c) { return c.toLowerCase().indexOf(input) !== -1; });
+    if (filtered.length === 0 || (filtered.length === 1 && filtered[0].toLowerCase() === input)) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    filtered.forEach(function(c) {
+        var item = document.createElement('div');
+        item.textContent = c;
+        item.style.cssText = 'padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);color:var(--text)';
+        item.onmousedown = function() { selectCompany(c); };
+        dd.appendChild(item);
+    });
+    dd.style.display = 'block';
+    validateOffDrawerCTA();
+}
+
+function selectCompany(name) {
+    document.getElementById('off-company').value = name;
+    document.getElementById('company-dropdown').style.display = 'none';
+    var addr = companyAddrMap[name] || genericAddr;
+    document.getElementById('off-house').value = addr.house;
+    document.getElementById('off-locality').value = addr.locality;
+    document.getElementById('off-postoffice').value = addr.post;
+    document.getElementById('off-pin').value = addr.pin;
+    document.getElementById('off-district-state').value = addr.district;
+    validateOffDrawerCTA();
+}
+
+function autoFetchOffDistrict() {
+    var pin = document.getElementById('off-pin').value.trim();
+    var distField = document.getElementById('off-district-state');
+    if (pin.length === 6) { distField.value = pinMap[pin] ? pinMap[pin] : 'Central Delhi, Delhi'; }
+    else { distField.value = ''; }
+}
+
+function validateOffDrawerCTA() {
+    var co = document.getElementById('off-company').value.trim();
+    var h = document.getElementById('off-house').value.trim();
+    var l = document.getElementById('off-locality').value.trim();
+    var p = document.getElementById('off-postoffice').value.trim();
+    var pin = document.getElementById('off-pin').value.trim();
+    var ds = document.getElementById('off-district-state').value.trim();
+    document.getElementById('off-drawer-proceed-btn').disabled = !(co && h && l && p && pin && ds);
+}
+
+function offDrawerProceed() {
+    var co = document.getElementById('off-company').value.trim();
+    var h = document.getElementById('off-house').value.trim();
+    var l = document.getElementById('off-locality').value.trim();
+    var p = document.getElementById('off-postoffice').value.trim();
+    var pin = document.getElementById('off-pin').value.trim();
+    var ds = document.getElementById('off-district-state').value.trim();
+    if (editingOffCardEl) {
+        editingOffCardEl.querySelector('.addr-card-title').textContent = co || 'Office Address';
+        editingOffCardEl.querySelector('.addr-card-body').textContent = h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds;
+        editingOffCardEl.ondblclick = function() { editDynamicOffCard(editingOffCardEl, co, h, l, p, pin, ds); };
+        editingOffCardEl = null;
+    } else {
+        addOfficeCard(co, h, l, p, pin, ds);
+    }
+    offSelected = true;
+    closeOfficeDrawer();
+    updateMainProceed();
+    if (resSelected && offSelected) { go(12); }
+}
+
+function addOfficeCard(co, h, l, p, pin, ds) {
+    var container = document.getElementById('off-cards-container');
+    var card = document.createElement('div');
+    card.className = 'card addr-card off-card';
+    card.style.cssText = 'cursor:pointer;border:2px solid var(--cyan);transition:0.2s;padding:14px 16px;margin-bottom:12px';
+    card.innerHTML = '<p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">' + (co || 'Office Address') + '</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p>';
+    card.onclick = function() { selectOffCard(card); };
+    card.ondblclick = function() { editDynamicOffCard(card, co, h, l, p, pin, ds); };
+    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    card.style.borderColor = 'var(--cyan)';
+    container.appendChild(card);
+}
+
+// Hide company dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#off-company') && !e.target.closest('#company-dropdown')) {
+        document.getElementById('company-dropdown').style.display = 'none';
+    }
+});
 
 // Initial validation
 document.addEventListener('DOMContentLoaded', () => {
