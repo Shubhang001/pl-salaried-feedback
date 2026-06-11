@@ -468,10 +468,10 @@
         <div class="inp"><label style="background:var(--bg)">Savings Account Number</label><input placeholder="" oninput="validateAllCTAs()"></div>
         <div class="inp"><label style="background:var(--bg)">IFSC Code</label><input placeholder="" oninput="validateAllCTAs()"><span class="act">Find IFSC</span></div>
     </div>
-    <div class="ftr"><button class="cta" onclick="go(13)">Continue</button></div>
+    <div class="ftr"><button class="cta" onclick="go(14)">Continue</button></div>
 </div>
 
-<!-- S13: Finprotect Gold -->
+<!-- S13: Finprotect Gold (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="s13">
     <div class="hdr" style="position:relative"><button class="back" onclick="go(12)">←</button><h1>Finprotect Gold</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
     <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
@@ -484,10 +484,11 @@
     </div>
     <div class="ftr" style="display:flex;flex-direction:column;gap:12px"><button class="cta" onclick="setFinprotect(true);go(14)">Accept</button><button class="cta cta-ghost" onclick="setFinprotect(false);go(14)">Deny</button></div>
 </div>
+-->
 
 <!-- S14: Reconfirm -->
 <div class="screen" id="s14">
-    <div class="hdr" style="position:relative"><button class="back" onclick="go(13)">←</button><h1>Reconfirm your details</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="hdr" style="position:relative"><button class="back" onclick="go(12)">←</button><h1>Reconfirm your details</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
     <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
     <div class="cnt">
         <div class="card">
@@ -495,18 +496,28 @@
             <div class="srow"><span class="l">Loan Tenure</span><span class="v">24 months</span></div>
             <div class="srow"><span class="l">EMI Amount</span><span class="v">₹9,504</span></div>
             <div class="srow"><span class="l">Processing Fee (inc. GST)</span><span class="v">₹800</span></div>
-            <div class="srow"><span class="l">Finprotect Gold Fee</span><span class="v">₹3,999</span></div>
             <div class="srow"><span class="l" style="font-weight:600;color:#fff">Net Disbursal</span><span class="v">₹99,001</span></div>
-            <div id="finprotect-toggle" onclick="this.classList.toggle('active')" style="background:rgba(34,211,238,0.04);border-radius:10px;padding:12px;margin-top:12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border:2px solid transparent;transition:0.2s">
-                <div class="fp-chk" style="width:18px;height:18px;border-radius:4px;min-width:18px;background:var(--border);display:flex;align-items:center;justify-content:center;transition:0.2s"></div>
-                <div><p style="font-size:13px;font-weight:600">Secure your loan with 'Finprotect Gold'</p><p style="font-size:12px;color:var(--text-sec);margin-top:4px">Secure your family's future and avoid repayment worries with Finprotect Gold. Find more details <a href="#" class="link">here</a>.</p></div>
-            </div>
         </div>
         <div class="acc"><div class="acc-h" onclick="this.parentElement.classList.toggle('open')"><h3>Have a promo code?</h3><span class="acc-arrow">▼</span></div><div class="acc-b"><div style="display:flex;gap:12px;align-items:center"><input placeholder="Enter offer code" value="" style="flex:1;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:14px;font-family:inherit" oninput="validateAllCTAs()"><button style="color:var(--cyan);font-weight:600;font-size:14px;background:none;border:none;cursor:pointer">Apply</button></div></div></div>
         <div class="acc"><div class="acc-h" onclick="this.parentElement.classList.toggle('open')"><h3>e-Mandate details</h3><span class="acc-arrow">▼</span></div><div class="acc-b"><div class="srow"><span class="l">Bank Name</span><span class="v">HDFC BANK</span></div><div class="srow"><span class="l">Account Number</span><span class="v">*******418</span></div><div class="srow"><span class="l">IFSC Code</span><span class="v">HDFC0000553</span></div><div class="srow"><span class="l">Account Holder Name</span><span class="v">Ramachandran Signania</span></div></div></div>
         <div class="ibanner"><span class="ic">💡</span><p>Your EMI will be deducted from the linked bank account on the 5th of every month</p></div>
     </div>
-    <div class="ftr"><button class="cta" onclick="go(15)">Confirm</button></div>
+    <div class="ftr"><button class="cta" onclick="openLoanTermsDrawer()">Confirm</button></div>
+</div>
+
+<!-- Loan Terms Drawer Overlay (not dismissible) -->
+<div id="loan-terms-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:200;transition:opacity 0.3s;opacity:0"></div>
+<!-- Loan Terms Drawer -->
+<div id="loan-terms-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:360px;height:60vh;background:var(--bg);border-radius:20px 20px 0 0;z-index:201;flex-direction:column;overflow:hidden">
+    <div style="display:flex;justify-content:center;padding:12px 0 8px">
+        <div style="width:40px;height:4px;border-radius:2px;background:var(--border)"></div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:0 20px">
+        <img src="assets/Loanterms.png" alt="Loan Terms" style="width:100%;display:block;border-radius:10px">
+    </div>
+    <div style="padding:8px 20px 20px">
+        <button class="cta" onclick="acceptLoanTerms()">Accept</button>
+    </div>
 </div>
 
 <!-- S15: Loan T&C OTP -->
@@ -1008,6 +1019,23 @@ document.addEventListener('click', function(e) {
         document.getElementById('company-dropdown').style.display = 'none';
     }
 });
+
+// Loan Terms Drawer
+function openLoanTermsDrawer() {
+    var overlay = document.getElementById('loan-terms-overlay');
+    var drawer = document.getElementById('loan-terms-drawer');
+    overlay.style.display = 'block';
+    drawer.style.display = 'flex';
+    setTimeout(function() { overlay.style.opacity = '1'; }, 10);
+}
+
+function acceptLoanTerms() {
+    var overlay = document.getElementById('loan-terms-overlay');
+    var drawer = document.getElementById('loan-terms-drawer');
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; drawer.style.display = 'none'; }, 300);
+    go(15);
+}
 
 // Initial validation
 document.addEventListener('DOMContentLoaded', () => {
