@@ -556,11 +556,21 @@ function validateScreen12() {
     const s = document.getElementById('s12');
     if (!s) return;
     const btn = s.querySelector('.ftr .cta');
-    const select = s.querySelector('select');
-    const inputs = s.querySelectorAll('.inp input');
-    let allFilled = select && select.value !== '';
-    inputs.forEach(inp => { if (inp.value.trim() === '') allFilled = false; });
-    btn.disabled = !allFilled;
+    // Check which auth tab is selected
+    const selectedTab = s.querySelector('.atab.sel');
+    const isUPI = selectedTab && selectedTab.textContent.trim() === 'UPI';
+    if (isUPI) {
+        // UPI selected - only need UPI ID filled
+        const upiInput = document.querySelector('#upi-id-field input');
+        btn.disabled = !(upiInput && upiInput.value.trim() !== '');
+    } else {
+        // Debit Card or Net Banking - need bank, account, IFSC filled
+        const select = s.querySelector('select');
+        const inputs = s.querySelectorAll('.inp:not(#upi-id-field) input');
+        let allFilled = select && select.value !== '';
+        inputs.forEach(inp => { if (inp.value.trim() === '') allFilled = false; });
+        btn.disabled = !allFilled;
+    }
 }
 
 function validateScreen16() {
