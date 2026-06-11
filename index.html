@@ -171,9 +171,9 @@
         .acc-arrow { transition: transform 0.2s; display: inline-block; }
 
         /* FinProtect toggle */
-        #finprotect-toggle.active { border-color: var(--cyan); background: rgba(34,211,238,0.08); }
-        #finprotect-toggle.active .fp-chk { background: var(--cyan); }
-        #finprotect-toggle.active .fp-chk::after { content: '✓'; color: #000; font-size: 11px; font-weight: 700; }
+        #finprotect-toggle.active { border-color: var(--blue); background: rgba(46,139,239,0.08); }
+        #finprotect-toggle.active .fp-chk { background: var(--blue); }
+        #finprotect-toggle.active .fp-chk::after { content: '✓'; color: #fff; font-size: 11px; font-weight: 700; }
 
         /* Success */
         .s-hdr { background: linear-gradient(180deg, #c9a87c 0%, #b89060 40%, var(--bg) 100%); padding: 40px 20px; text-align: center; }
@@ -398,7 +398,8 @@
             <div class="tip"><span class="tn">2</span><p style="font-size:13px">The account details mentioned below will be used to deposit the loan amount.</p></div>
         </div>
         <p class="sec-title">Choose a mode of authorization</p>
-        <div class="atabs"><button class="atab sel">Debit Card</button><button class="atab">UPI</button><button class="atab">Net Banking</button></div>
+        <div class="atabs"><button class="atab sel" onclick="selectAuthTab(this)">Debit Card</button><button class="atab" onclick="selectAuthTab(this)">UPI</button><button class="atab" onclick="selectAuthTab(this)">Net Banking</button></div>
+        <div class="inp" id="upi-id-field" style="display:none"><label style="background:var(--bg)">UPI ID</label><input placeholder="e.g. name@upi" oninput="validateAllCTAs()"></div>
         <div class="inp"><label style="background:var(--bg)">Select Bank</label><select id="bank-select" onchange="document.getElementById('bank-display').value=this.value;validateAllCTAs()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select Bank --</option><option>HDFC Bank</option><option>State Bank of India</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Mahindra Bank</option><option>Punjab National Bank</option><option>Bank of Baroda</option><option>Canara Bank</option><option>Union Bank of India</option><option>IndusInd Bank</option><option>Yes Bank</option><option>IDBI Bank</option><option>Bank of India</option><option>Central Bank of India</option><option>Indian Overseas Bank</option><option>UCO Bank</option><option>Federal Bank</option><option>South Indian Bank</option><option>Bandhan Bank</option><option>RBL Bank</option></select></div>
         <div class="inp"><label style="background:var(--bg)">Savings Account Number</label><input placeholder="" oninput="validateAllCTAs()"></div>
         <div class="inp"><label style="background:var(--bg)">IFSC Code</label><input placeholder="" oninput="validateAllCTAs()"><span class="act">Find IFSC</span></div>
@@ -417,7 +418,7 @@
             <p style="font-size:14px;color:var(--text-sec);line-height:1.6">Secure your family's future and avoid repayment worries with Finprotect Gold. Find more details <a href="#" class="link">here</a>.</p>
         </div>
     </div>
-    <div class="ftr" style="display:flex;flex-direction:column;gap:12px"><button class="cta" onclick="go(14)">Accept</button><button class="cta cta-ghost" onclick="go(14)">Deny</button></div>
+    <div class="ftr" style="display:flex;flex-direction:column;gap:12px"><button class="cta" onclick="setFinprotect(true);go(14)">Accept</button><button class="cta cta-ghost" onclick="setFinprotect(false);go(14)">Deny</button></div>
 </div>
 
 <!-- S14: Reconfirm -->
@@ -590,6 +591,29 @@ document.querySelectorAll('.emi').forEach(e=>{e.addEventListener('click',()=>{do
 
 // Auth tabs
 document.querySelectorAll('.atab').forEach(t=>{t.addEventListener('click',()=>{document.querySelectorAll('.atab').forEach(a=>a.classList.remove('sel'));t.classList.add('sel')})});
+
+// Auth tab selection with UPI field toggle
+function selectAuthTab(el) {
+    document.querySelectorAll('.atab').forEach(a => a.classList.remove('sel'));
+    el.classList.add('sel');
+    var upiField = document.getElementById('upi-id-field');
+    if (el.textContent.trim() === 'UPI') {
+        upiField.style.display = '';
+    } else {
+        upiField.style.display = 'none';
+    }
+    validateAllCTAs();
+}
+
+// Finprotect accept/deny state
+function setFinprotect(accepted) {
+    var toggle = document.getElementById('finprotect-toggle');
+    if (accepted) {
+        toggle.classList.add('active');
+    } else {
+        toggle.classList.remove('active');
+    }
+}
 
 // Stars
 document.querySelectorAll('.star').forEach((s,i)=>{s.addEventListener('click',()=>{document.querySelectorAll('.star').forEach((x,j)=>{x.textContent=j<=i?'★':'☆';x.classList.toggle('on',j<=i)});validateAllCTAs();})});
