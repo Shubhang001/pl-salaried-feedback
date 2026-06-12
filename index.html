@@ -353,6 +353,11 @@
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel-income" placeholder="" oninput="formatIncome(this);validateWelcome()"></div>
             <div class="inp" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel-company" placeholder="" oninput="filterWelCompanies();validateWelcome()" onfocus="showWelCompanyDropdown()" autocomplete="off"><div id="wel-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
         </div>
+        <!-- Self-employed / Other extra fields (hidden by default) -->
+        <div id="self-employed-fields" style="display:none;width:100%;margin-top:12px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel-self-income" placeholder="" oninput="formatIncome(this);validateWelcome()"></div>
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel-business" placeholder="" oninput="validateWelcome()"></div>
+        </div>
     </div>
     <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goP('pre5')" disabled>Go to Homepage</button></div>
 </div>
@@ -842,12 +847,19 @@ function selectEmpType(el) {
     el.style.borderColor = 'var(--cyan)';
     el.style.background = 'rgba(46,139,239,0.08)';
     el.classList.add('sel');
-    // Show/hide salaried extra fields
+    // Show/hide extra fields based on type
     var salariedFields = document.getElementById('salaried-fields');
-    if (el.getAttribute('data-type') === 'salaried') {
+    var selfFields = document.getElementById('self-employed-fields');
+    var type = el.getAttribute('data-type');
+    if (type === 'salaried') {
         salariedFields.style.display = 'block';
+        selfFields.style.display = 'none';
+    } else if (type === 'self' || type === 'other') {
+        salariedFields.style.display = 'none';
+        selfFields.style.display = 'block';
     } else {
         salariedFields.style.display = 'none';
+        selfFields.style.display = 'none';
     }
     validateWelcome();
 }
@@ -879,14 +891,21 @@ function validateWelcome() {
     var hasGender = document.querySelector('.wel-gender.sel') !== null;
     var selEmp = document.querySelector('.emp-type.sel');
     var hasEmp = selEmp !== null;
-    var salariedOk = true;
-    if (selEmp && selEmp.getAttribute('data-type') === 'salaried') {
-        var income = document.getElementById('wel-income').value.trim();
-        var company = document.getElementById('wel-company').value.trim();
-        salariedOk = income && company;
+    var extraOk = true;
+    if (selEmp) {
+        var type = selEmp.getAttribute('data-type');
+        if (type === 'salaried') {
+            var income = document.getElementById('wel-income').value.trim();
+            var company = document.getElementById('wel-company').value.trim();
+            extraOk = income && company;
+        } else if (type === 'self' || type === 'other') {
+            var selfIncome = document.getElementById('wel-self-income').value.trim();
+            var business = document.getElementById('wel-business').value.trim();
+            extraOk = selfIncome && business;
+        }
     }
     var btn = document.getElementById('wel-proceed-btn');
-    btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && salariedOk);
+    btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && extraOk);
 }
 
 // Welcome Company Name dropdown
