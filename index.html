@@ -70,10 +70,10 @@
         .card-b { border: 1px solid var(--border); }
 
         /* Inputs - Figma: 320x50, label at offset (11, -7), border-radius 10px */
-        .inp { position: relative; margin-bottom: 20px; }
+        .inp { position: relative; margin-bottom: 14px; }
         .inp label { position: absolute; top: -7px; left: 11px; font-size: 11px; color: var(--text-sec); background: var(--bg); padding: 0 6px; z-index: 1; }
         .inp.in-card label { background: var(--card); }
-        .inp input, .inp select { width: 100%; padding: 15px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; font-family: inherit; outline: none; height: 50px; }
+        .inp input, .inp select { width: 100%; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; height: 42px; }
         .inp input:focus { border-color: var(--cyan); }
         .inp .act { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--cyan); font-size: 13px; font-weight: 600; }
         .inp .hint { font-size: 12px; color: var(--text-sec); margin-top: 6px; padding-left: 2px; }
@@ -205,8 +205,8 @@
 <!-- Pre-journey: First Screen (Splash) -->
 <div class="screen active" id="pre1">
     <div class="cnt" style="padding-top:40px;align-items:center;text-align:left">
-        <h1 style="font-size:28px;font-weight:800;line-height:1.3;padding:0 20px">Making Finance Accessible to Everyone</h1>
-        <p style="font-size:14px;color:var(--text-sec);margin-top:12px;padding:0 20px;line-height:1.6">Unlock possibilities with a personal loan designed for your needs.</p>
+        <h1 style="font-size:22px;font-weight:800;line-height:1.3;padding:0 20px">Making Finance Accessible to Everyone</h1>
+        <p style="font-size:12px;color:var(--text-sec);margin-top:8px;padding:0 20px;line-height:1.6">Unlock possibilities with a personal loan designed for your needs.</p>
         <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:30px 0">
             <div style="width:260px;height:260px;border-radius:50%;background:linear-gradient(180deg,#1a2a3a,#0d1117);display:flex;align-items:center;justify-content:center;font-size:80px;position:relative">
                 👨‍💼
@@ -228,11 +228,11 @@
 
 <!-- Pre-journey: Mobile Enter Page -->
 <div class="screen" id="pre2">
-    <div class="cnt" style="align-items:center;padding-top:60px">
-        <div style="margin-bottom:16px">
+    <div class="cnt" style="align-items:center;padding-top:40px">
+        <div style="margin-bottom:8px">
             <div style="text-align:center"><img src="assets/DMIlogo.jpg" alt="DMI Finance" style="width:280px;display:block;margin:0 auto;border-radius:8px"></div>
         </div>
-        <div style="width:100%;margin-top:40px">
+        <div style="width:100%;margin-top:16px">
             <div class="inp"><label style="background:var(--bg)">Mobile number</label><input id="pre-mobile" type="tel" maxlength="10" placeholder="" oninput="validatePreMobile()"></div>
         </div>
         <div style="flex:1"></div>
@@ -252,10 +252,10 @@
     <div style="padding:20px"><button class="back" onclick="goP('pre2')" style="font-size:22px;background:none;border:none;color:var(--text);cursor:pointer">←</button></div>
     <div class="cnt" style="align-items:center;text-align:center">
         <img src="assets/DMIlogo.jpg" alt="DMI Finance" style="width:240px;display:block;margin:0 auto;border-radius:8px">
-        <h3 style="font-size:20px;font-weight:700;margin-top:24px">OTP verification</h3>
-        <p style="font-size:14px;color:var(--text-sec);margin-top:10px">You will receive an OTP on your mobile number</p>
-        <p id="pre-otp-mobile" style="font-size:15px;font-weight:600;margin-top:6px">+91 ••••••••••</p>
-        <div class="otp-row" style="margin-top:30px"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"></div>
+        <h3 style="font-size:20px;font-weight:700;margin-top:12px">OTP verification</h3>
+        <p style="font-size:14px;color:var(--text-sec);margin-top:6px">You will receive an OTP on your mobile number</p>
+        <p id="pre-otp-mobile" style="font-size:15px;font-weight:600;margin-top:4px">+91 ••••••••••</p>
+        <div class="otp-row" style="margin-top:16px"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"></div>
         <p style="font-size:13px;color:var(--text-sec);margin-top:12px">⏱ 00:55</p>
     </div>
     <div class="ftr"><button class="cta" id="pre-verify-otp-btn" style="background:#333;color:#aaa" onclick="goP('pre4')" disabled>Verify OTP</button></div>
@@ -317,24 +317,24 @@
 
 <!-- Pre-journey: Welcome Form Screen -->
 <div class="screen" id="pre4b">
-    <div class="cnt" style="padding-top:20px;align-items:center">
+    <div class="cnt" style="padding-top:16px;align-items:center;gap:8px">
         <div style="font-size:50px;margin-bottom:8px">📱</div>
         <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
         <p style="font-size:13px;color:var(--text-sec);text-align:center;margin-top:4px;margin-bottom:20px">Tell us a bit about yourself</p>
 
-        <div style="display:flex;gap:10px;width:100%;margin-bottom:16px">
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
             <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel-fname" placeholder="" oninput="validateWelcome()"></div>
             <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel-lname" placeholder="" oninput="validateWelcome()"></div>
         </div>
 
-        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:10px">Gender</p>
-        <div style="display:flex;gap:10px;width:100%;margin-bottom:20px">
-            <div class="wel-gender sel" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 8px;border-radius:10px;border:1px solid var(--cyan);background:rgba(46,139,239,0.1);cursor:pointer"><span style="font-size:22px;color:var(--blue)">♂</span><span style="font-size:12px;margin-top:4px">Male</span></div>
-            <div class="wel-gender" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 8px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:22px;color:var(--blue)">♀</span><span style="font-size:12px;margin-top:4px">Female</span></div>
-            <div class="wel-gender" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 8px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:22px;color:var(--blue)">⚥</span><span style="font-size:12px;margin-top:4px">Other</span></div>
+        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:8px">Gender</p>
+        <div style="display:flex;gap:8px;width:100%;margin-bottom:14px">
+            <div class="wel-gender sel" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:10px;border:1px solid var(--cyan);background:rgba(46,139,239,0.1);cursor:pointer"><span style="font-size:18px;color:var(--blue)">♂</span><span style="font-size:11px;margin-top:3px">Male</span></div>
+            <div class="wel-gender" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px;color:var(--blue)">♀</span><span style="font-size:11px;margin-top:3px">Female</span></div>
+            <div class="wel-gender" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px;color:var(--blue)">⚥</span><span style="font-size:11px;margin-top:3px">Other</span></div>
         </div>
 
-        <div style="display:flex;gap:10px;width:100%;margin-bottom:16px">
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
             <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel-pan" placeholder="" oninput="validateWelcome()"></div>
             <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Date of Birth</label><input id="wel-dob" placeholder="dd/mm/yyyy" maxlength="10" oninput="formatDOB(this);validateWelcome()"><span class="act">📅</span></div>
         </div>
@@ -342,11 +342,16 @@
         <div class="inp" style="width:100%"><label style="background:var(--bg)">Current Pincode</label><input id="wel-pincode" placeholder="" oninput="validateWelcome()"></div>
         <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel-email" placeholder="" oninput="validateWelcome()"></div>
 
-        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:10px">Employment Type</p>
-        <div style="width:100%;display:flex;flex-direction:column;gap:10px">
-            <div class="emp-type sel" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--cyan);background:rgba(46,139,239,0.08);cursor:pointer"><span style="font-size:20px">💼</span><span style="font-size:14px;font-weight:600">Salaried</span></div>
-            <div class="emp-type" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--border);cursor:pointer"><span style="font-size:20px">🎨</span><span style="font-size:14px;font-weight:600">Self-employed / Professional</span></div>
-            <div class="emp-type" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--border);cursor:pointer"><span style="font-size:20px">👤</span><span style="font-size:14px;font-weight:600">Other</span></div>
+        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:8px">Employment Type</p>
+        <div style="width:100%;display:flex;flex-direction:column;gap:8px">
+            <div class="emp-type" data-type="salaried" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px">💼</span><span style="font-size:13px;font-weight:600">Salaried</span></div>
+            <div class="emp-type" data-type="self" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px">🎨</span><span style="font-size:13px;font-weight:600">Self-employed / Professional</span></div>
+            <div class="emp-type" data-type="other" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px">👤</span><span style="font-size:13px;font-weight:600">Other</span></div>
+        </div>
+        <!-- Salaried extra fields (hidden by default) -->
+        <div id="salaried-fields" style="display:none;width:100%;margin-top:12px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel-income" placeholder="" oninput="formatIncome(this);validateWelcome()"></div>
+            <div class="inp" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel-company" placeholder="" oninput="filterWelCompanies();validateWelcome()" onfocus="showWelCompanyDropdown()" autocomplete="off"><div id="wel-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
         </div>
     </div>
     <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goP('pre5')" disabled>Go to Homepage</button></div>
@@ -837,6 +842,13 @@ function selectEmpType(el) {
     el.style.borderColor = 'var(--cyan)';
     el.style.background = 'rgba(46,139,239,0.08)';
     el.classList.add('sel');
+    // Show/hide salaried extra fields
+    var salariedFields = document.getElementById('salaried-fields');
+    if (el.getAttribute('data-type') === 'salaried') {
+        salariedFields.style.display = 'block';
+    } else {
+        salariedFields.style.display = 'none';
+    }
     validateWelcome();
 }
 
@@ -849,6 +861,13 @@ function formatDOB(el) {
     el.value = val;
 }
 
+// Monthly Income format with ₹ symbol
+function formatIncome(el) {
+    var val = el.value.replace(/[^0-9]/g, '');
+    if (val.length > 0) { el.value = '₹' + val; }
+    else { el.value = ''; }
+}
+
 // Welcome form validation
 function validateWelcome() {
     var fname = document.getElementById('wel-fname').value.trim();
@@ -858,10 +877,42 @@ function validateWelcome() {
     var pin = document.getElementById('wel-pincode').value.trim();
     var email = document.getElementById('wel-email').value.trim();
     var hasGender = document.querySelector('.wel-gender.sel') !== null;
-    var hasEmp = document.querySelector('.emp-type.sel') !== null;
+    var selEmp = document.querySelector('.emp-type.sel');
+    var hasEmp = selEmp !== null;
+    var salariedOk = true;
+    if (selEmp && selEmp.getAttribute('data-type') === 'salaried') {
+        var income = document.getElementById('wel-income').value.trim();
+        var company = document.getElementById('wel-company').value.trim();
+        salariedOk = income && company;
+    }
     var btn = document.getElementById('wel-proceed-btn');
-    btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp);
+    btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && salariedOk);
 }
+
+// Welcome Company Name dropdown
+function showWelCompanyDropdown() { filterWelCompanies(); }
+
+function filterWelCompanies() {
+    var input = document.getElementById('wel-company').value.trim().toLowerCase();
+    var dd = document.getElementById('wel-company-dropdown');
+    var filtered = companyList.filter(function(c) { return c.toLowerCase().indexOf(input) !== -1; });
+    if (filtered.length === 0 || (filtered.length === 1 && filtered[0].toLowerCase() === input)) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    filtered.forEach(function(c) {
+        var item = document.createElement('div');
+        item.textContent = c;
+        item.style.cssText = 'padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);color:var(--text)';
+        item.onmousedown = function() { document.getElementById('wel-company').value = c; dd.style.display = 'none'; validateWelcome(); };
+        dd.appendChild(item);
+    });
+    dd.style.display = 'block';
+}
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#wel-company') && !e.target.closest('#wel-company-dropdown')) {
+        document.getElementById('wel-company-dropdown').style.display = 'none';
+    }
+});
 
 // Slider amount update
 function updateSliderAmount(slider) {
