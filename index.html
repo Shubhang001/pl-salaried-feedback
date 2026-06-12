@@ -8,7 +8,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg: #0D1117;
+            --bg: #000000;
             --card: #1B2028;
             --card-alt: #232A34;
             --text: #FFFFFF;
@@ -114,7 +114,7 @@
         .stp .stxt p { font-size: 13px; color: var(--text-sec); line-height: 1.4; }
 
         /* Consent - Figma: checkbox 20x20, gap 30px from checkbox to text */
-        .con { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+        .con { display: flex; gap: 12px; margin-bottom: 2px; align-items: flex-start; }
         .con .chk { width: 20px; height: 20px; border-radius: 4px; background: var(--border); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 20px; transition: 0.2s; }
         .con .chk.checked { background: var(--cyan); border-color: var(--cyan); }
         .con .chk.checked::after { content: '✓'; color: #000; font-size: 12px; font-weight: 700; }
@@ -202,8 +202,227 @@
 <body>
 <div class="phone">
 
-<!-- S1: Home Banner -->
-<div class="screen active" id="s1">
+<!-- Pre-journey: First Screen (Splash) -->
+<div class="screen active" id="pre1">
+    <div class="cnt" style="padding-top:40px;align-items:center;text-align:left">
+        <h1 style="font-size:28px;font-weight:800;line-height:1.3;padding:0 20px">Making Finance Accessible to Everyone</h1>
+        <p style="font-size:14px;color:var(--text-sec);margin-top:12px;padding:0 20px;line-height:1.6">Unlock possibilities with a personal loan designed for your needs.</p>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:30px 0">
+            <div style="width:260px;height:260px;border-radius:50%;background:linear-gradient(180deg,#1a2a3a,#0d1117);display:flex;align-items:center;justify-content:center;font-size:80px;position:relative">
+                👨‍💼
+                <span style="position:absolute;top:20px;left:10px;font-size:24px">✈️</span>
+                <span style="position:absolute;top:10px;right:20px;font-size:24px">💍</span>
+                <span style="position:absolute;bottom:30px;left:20px;font-size:24px">🏠</span>
+                <span style="position:absolute;bottom:20px;right:10px;font-size:24px">📚</span>
+            </div>
+        </div>
+        <div style="display:flex;gap:20px;justify-content:center;margin-bottom:20px">
+            <div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px">🪪</div><p style="font-size:11px;color:var(--text-sec)">Paperless<br>Process</p></div>
+            <div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px">💰</div><p style="font-size:11px;color:var(--text-sec)">Attractive<br>Interest rates</p></div>
+            <div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px">🏦</div><p style="font-size:11px;color:var(--text-sec)">Hassle-free<br>Disbursal</p></div>
+        </div>
+        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:16px"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span><span style="width:8px;height:8px;border-radius:50%;background:var(--border)"></span><span style="width:8px;height:8px;border-radius:50%;background:var(--border)"></span></div>
+    </div>
+    <div class="ftr"><button class="cta" style="background:linear-gradient(90deg,#2196F3,#64B5F6)" onclick="goP('pre2')">Get Started</button></div>
+</div>
+
+<!-- Pre-journey: Mobile Enter Page -->
+<div class="screen" id="pre2">
+    <div class="cnt" style="align-items:center;padding-top:60px">
+        <div style="margin-bottom:16px">
+            <div style="text-align:center"><img src="assets/DMIlogo.jpg" alt="DMI Finance" style="width:280px;display:block;margin:0 auto;border-radius:8px"></div>
+        </div>
+        <div style="width:100%;margin-top:40px">
+            <div class="inp"><label style="background:var(--bg)">Mobile number</label><input id="pre-mobile" type="tel" maxlength="10" placeholder="" oninput="validatePreMobile()"></div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:16px;width:100%">
+            <div class="chk checked" style="width:20px;height:20px;border-radius:4px;background:var(--cyan);border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;min-width:20px"><span style="color:#000;font-size:12px;font-weight:700">✓</span></div>
+            <p style="font-size:12px;color:var(--text-sec);line-height:1.5">I agree to <a href="#" class="link">Terms and Conditions</a> and <a href="#" class="link">Privacy Policy</a> of <strong style="color:#fff">DMI Finance</strong>. I authorize DMI Finance and its representatives to call or send an e-mail/SMS/WhatsApp regarding products & services. The consent will override any registration for DND and/or NDNC.</p>
+        </div>
+    </div>
+    <div class="ftr">
+        <button class="cta" id="pre-send-otp-btn" style="background:#333;color:#aaa" onclick="goP('pre3')" disabled>Send OTP</button>
+        <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:8px">v2.4.7 (247)</p>
+    </div>
+</div>
+
+<!-- Pre-journey: OTP Verification -->
+<div class="screen" id="pre3">
+    <div style="padding:20px"><button class="back" onclick="goP('pre2')" style="font-size:22px;background:none;border:none;color:var(--text);cursor:pointer">←</button></div>
+    <div class="cnt" style="align-items:center;text-align:center">
+        <img src="assets/DMIlogo.jpg" alt="DMI Finance" style="width:240px;display:block;margin:0 auto;border-radius:8px">
+        <h3 style="font-size:20px;font-weight:700;margin-top:24px">OTP verification</h3>
+        <p style="font-size:14px;color:var(--text-sec);margin-top:10px">You will receive an OTP on your mobile number</p>
+        <p id="pre-otp-mobile" style="font-size:15px;font-weight:600;margin-top:6px">+91 ••••••••••</p>
+        <div class="otp-row" style="margin-top:30px"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"><input type="text" maxlength="1" class="otp-input" oninput="otpNext(this);validatePreOTP()" onkeydown="otpBack(event,this)"></div>
+        <p style="font-size:13px;color:var(--text-sec);margin-top:12px">⏱ 00:55</p>
+    </div>
+    <div class="ftr"><button class="cta" id="pre-verify-otp-btn" style="background:#333;color:#aaa" onclick="goP('pre4')" disabled>Verify OTP</button></div>
+</div>
+
+<!-- Pre-journey: App Permissions (Combined) -->
+<div class="screen" id="pre4">
+    <div class="cnt" style="padding-top:20px">
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:4px">App permissions</h2>
+        <p style="font-size:13px;color:var(--text-sec);margin-bottom:20px;line-height:1.5">Please grant permissions to the following for the best experience. You can change permissions later in device settings.</p>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <span style="font-size:20px;flex-shrink:0">📨</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">READ SMS</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects transactional SMS data, including sender names, SMS body, and received time. No personal SMS is collected, used, or stored.</p></div>
+            <div style="width:22px;height:22px;border-radius:4px;background:#10B981;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:12px;font-weight:700">✓</span></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <span style="font-size:20px;flex-shrink:0">📨</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">SEND SMS</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects transactional SMS data for credit evaluation purposes, enabling faster approval rates and higher limits.</p></div>
+            <div style="width:22px;height:22px;border-radius:4px;background:#10B981;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:12px;font-weight:700">✓</span></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <span style="font-size:20px;flex-shrink:0">📱</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">Installed Apps</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects details of installed applications for fraud detection and to understand your risk profile.</p></div>
+            <div onclick="togglePermChk(this)" style="width:22px;height:22px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center"></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <span style="font-size:20px;flex-shrink:0">📋</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">Device Information</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects and monitors specific device information to ensure unauthorized devices cannot act on your behalf.</p></div>
+            <div style="width:22px;height:22px;border-radius:4px;background:#10B981;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:12px;font-weight:700">✓</span></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <span style="font-size:20px;flex-shrink:0">📶</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">Sim Information</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects and monitors specific sim information for sim binding.</p></div>
+            <div style="width:22px;height:22px;border-radius:4px;background:#10B981;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:12px;font-weight:700">✓</span></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <span style="font-size:20px;flex-shrink:0">📍</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">Location</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects location details to verify your location and current address, to ensure serviceability, and to identify unusual activity.</p></div>
+            <div onclick="togglePermChk(this)" style="width:22px;height:22px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center"></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
+            <span style="font-size:20px;flex-shrink:0">💾</span>
+            <div style="flex:1"><h4 style="font-size:14px;font-weight:700">Storage</h4><p style="font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:4px">This app collects file metadata for KYC verification and loan agreements.</p></div>
+            <div onclick="togglePermChk(this)" style="width:22px;height:22px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center"></div>
+        </div>
+    </div>
+    <div class="ftr">
+        <button class="cta" style="background:linear-gradient(90deg,#2196F3,#64B5F6)" onclick="goP('pre4b')">Continue</button>
+        <p style="font-size:12px;color:var(--text-sec);text-align:center;margin-top:8px">By continuing you agree to the <a href="#" class="link">Privacy Policy</a> of DMI Finance</p>
+    </div>
+</div>
+
+<!-- Pre-journey: Welcome Form Screen -->
+<div class="screen" id="pre4b">
+    <div class="cnt" style="padding-top:20px;align-items:center">
+        <div style="font-size:50px;margin-bottom:8px">📱</div>
+        <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
+        <p style="font-size:13px;color:var(--text-sec);text-align:center;margin-top:4px;margin-bottom:20px">Tell us a bit about yourself</p>
+
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:16px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel-fname" placeholder="" oninput="validateWelcome()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel-lname" placeholder="" oninput="validateWelcome()"></div>
+        </div>
+
+        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:10px">Gender</p>
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:20px">
+            <div class="wel-gender sel" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 8px;border-radius:10px;border:1px solid var(--cyan);background:rgba(46,139,239,0.1);cursor:pointer"><span style="font-size:22px;color:var(--blue)">♂</span><span style="font-size:12px;margin-top:4px">Male</span></div>
+            <div class="wel-gender" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 8px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:22px;color:var(--blue)">♀</span><span style="font-size:12px;margin-top:4px">Female</span></div>
+            <div class="wel-gender" onclick="selectGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 8px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:22px;color:var(--blue)">⚥</span><span style="font-size:12px;margin-top:4px">Other</span></div>
+        </div>
+
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:16px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel-pan" placeholder="" oninput="validateWelcome()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Date of Birth</label><input id="wel-dob" placeholder="dd/mm/yyyy" maxlength="10" oninput="formatDOB(this);validateWelcome()"><span class="act">📅</span></div>
+        </div>
+
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Current Pincode</label><input id="wel-pincode" placeholder="" oninput="validateWelcome()"></div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel-email" placeholder="" oninput="validateWelcome()"></div>
+
+        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:10px">Employment Type</p>
+        <div style="width:100%;display:flex;flex-direction:column;gap:10px">
+            <div class="emp-type sel" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--cyan);background:rgba(46,139,239,0.08);cursor:pointer"><span style="font-size:20px">💼</span><span style="font-size:14px;font-weight:600">Salaried</span></div>
+            <div class="emp-type" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--border);cursor:pointer"><span style="font-size:20px">🎨</span><span style="font-size:14px;font-weight:600">Self-employed / Professional</span></div>
+            <div class="emp-type" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--border);cursor:pointer"><span style="font-size:20px">👤</span><span style="font-size:14px;font-weight:600">Other</span></div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goP('pre5')" disabled>Go to Homepage</button></div>
+</div>
+
+<!-- Pre-journey: MPIN Screen -->
+<div class="screen" id="pre5">
+    <div style="display:flex;justify-content:flex-end;padding:20px"><span style="color:var(--cyan);font-size:14px;font-weight:600;cursor:pointer" onclick="goP('pre6')">Skip</span></div>
+    <div class="cnt" style="align-items:center;text-align:center">
+        <h2 style="font-size:24px;font-weight:800;margin-bottom:8px">Set up your MPIN</h2>
+        <p style="font-size:14px;color:var(--text-sec)">Set a 4-digit Login PIN</p>
+        <p style="font-size:14px;color:var(--text-sec);margin-top:30px">Enter 4 digit MPIN</p>
+        <div class="otp-row" style="margin-top:12px"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"></div>
+        <p style="font-size:14px;color:var(--text-sec);margin-top:24px">Confirm 4 digit MPIN</p>
+        <div class="otp-row" style="margin-top:12px"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"><input type="password" maxlength="1" class="otp-input" oninput="otpNext(this);validateMPIN()" onkeydown="otpBack(event,this)"></div>
+    </div>
+    <div class="ftr"><button class="cta" id="pre-mpin-btn" style="background:#333;color:#aaa" onclick="goP('pre6')" disabled>Set MPIN</button></div>
+</div>
+
+<!-- Pre-journey: Home/Welcome Screen -->
+<div class="screen" id="pre6">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px">
+        <div><span style="font-size:12px;color:var(--text-sec)">Hi</span><br><span style="font-size:14px;font-weight:600">shubhang</span></div>
+        <div style="display:flex;align-items:center;gap:12px">
+            <span style="background:linear-gradient(90deg,#f59e0b,#d97706);color:#000;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px">🪙 Refer & Earn</span>
+            <span style="font-size:20px;cursor:pointer">☰</span>
+        </div>
+    </div>
+    <div class="cnt" style="padding-top:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec)">OFFERS FOR YOU</p><span style="font-size:12px;color:var(--text-sec)">View All ›</span></div>
+        <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:12px">
+            <div style="min-width:180px;background:linear-gradient(135deg,#1a3a5c,#0d2a40);border-radius:14px;padding:16px;position:relative;cursor:pointer" onclick="go(2)">
+                <p style="font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:8px">Personal Loan</p>
+                <p style="font-size:12px;color:var(--text-sec);line-height:1.4;margin-bottom:12px">Eligible for a Personal Loan up to<br><strong style="color:#fff;font-size:15px">₹10,00,000</strong></p>
+                <p style="font-size:11px;color:var(--text-sec);margin-bottom:10px">Check eligibility to receive funds</p>
+                <span style="background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:6px 14px;border-radius:16px">Avail Now ›</span>
+                <span style="position:absolute;top:14px;right:14px;font-size:28px">💰</span>
+            </div>
+            <div style="min-width:180px;background:linear-gradient(135deg,#2a1a0a,#3d2a10);border-radius:14px;padding:16px;position:relative">
+                <p style="font-size:13px;font-weight:700;color:var(--orange);margin-bottom:8px">Business Loan</p>
+                <p style="font-size:12px;color:var(--text-sec);line-height:1.4;margin-bottom:12px">Eligible for a Business Loan up to<br><strong style="color:#fff;font-size:15px">₹25,00,000</strong></p>
+                <p style="font-size:11px;color:var(--text-sec);margin-bottom:10px">Access funds with a few simple steps</p>
+                <span style="background:var(--orange);color:#000;font-size:12px;font-weight:600;padding:6px 14px;border-radius:16px">Avail Now ›</span>
+                <span style="position:absolute;top:14px;right:14px;font-size:28px">💼</span>
+            </div>
+        </div>
+        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:16px"><span style="width:20px;height:6px;border-radius:3px;background:#fff"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--border)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--border)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--border)"></span></div>
+
+        <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec);margin-bottom:10px">CREDIT SCORE</p>
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <div><p style="font-size:14px;font-weight:600;line-height:1.4">Check your credit score<br>in less than a minute</p><span style="font-size:12px;color:var(--text-sec);margin-top:8px;display:inline-block;border:1px solid var(--border);padding:4px 10px;border-radius:12px">Get Report ›</span></div>
+            <span style="font-size:40px">📊</span>
+        </div>
+
+        <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec);margin-bottom:10px">BILLS & RECHARGES</p>
+        <div class="card" style="padding:14px">
+            <div style="display:flex;gap:20px;justify-content:space-around">
+                <div style="text-align:center"><span style="font-size:22px">💡</span><p style="font-size:11px;color:var(--text-sec);margin-top:4px">Electricity</p></div>
+                <div style="text-align:center"><span style="font-size:22px">🏷️</span><p style="font-size:11px;color:var(--text-sec);margin-top:4px">Fast Tag</p></div>
+                <div style="text-align:center"><span style="font-size:22px">💳</span><p style="font-size:11px;color:var(--text-sec);margin-top:4px">Credit Card</p></div>
+                <div style="text-align:center"><span style="font-size:22px">🔥</span><p style="font-size:11px;color:var(--text-sec);margin-top:4px">Gas</p></div>
+            </div>
+        </div>
+    </div>
+    <!-- Bottom Nav Bar -->
+    <div style="display:flex;justify-content:space-around;align-items:center;padding:12px 0;border-top:1px solid var(--border);margin-top:auto">
+        <div style="text-align:center"><span style="font-size:18px">🏠</span><p style="font-size:10px;color:#fff;margin-top:2px;font-weight:600">Home</p></div>
+        <div style="text-align:center"><span style="font-size:18px">🎁</span><p style="font-size:10px;color:var(--text-sec);margin-top:2px">Offers</p></div>
+        <div style="text-align:center"><div style="width:44px;height:44px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;margin:-16px auto 0"><span style="font-size:18px">₹</span></div><p style="font-size:10px;color:var(--text-sec);margin-top:2px">Pay</p></div>
+        <div style="text-align:center"><span style="font-size:18px">🏆</span><p style="font-size:10px;color:var(--text-sec);margin-top:2px">Rewards</p></div>
+        <div style="text-align:center"><span style="font-size:18px">🎧</span><p style="font-size:10px;color:var(--text-sec);margin-top:2px">Support</p></div>
+    </div>
+</div>
+
+<!-- S1: Home Banner (COMMENTED OUT - not part of current journey flow)
+<div class="screen" id="s1">
     <div class="hdr"><span style="font-size:14px;color:var(--text-sec)">Welcome, Ramachandran</span></div>
     <div class="cnt" style="padding-top:16px">
         <div style="background:linear-gradient(135deg,#1a3a5c,#0d2340);border-radius:16px;padding:24px;min-height:340px;position:relative;overflow:hidden">
@@ -217,12 +436,13 @@
         </div>
     </div>
 </div>
+-->
 
 <!-- S2: Consent & Steps -->
 <div class="screen" id="s2">
-    <div class="hdr" style="position:relative"><button class="back" onclick="go(1)">←</button><h1>Just 5 easy steps</h1></div>
+    <div class="hdr" style="position:relative"><button class="back" onclick="goP('pre6')">←</button><h1>Just 3 easy steps</h1></div>
     <div class="cnt">
-        <img src="assets/consent_screen.png" alt="5 Steps Journey" style="width:100%;border-radius:12px;margin-bottom:12px">
+        <img src="assets/ConsentScreen.png" alt="5 Steps Journey" style="width:100%;border-radius:12px;margin-bottom:12px">
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>I agree that the loan applied from DMI Finance Private Limited will be governed by the <a href="#">Loan application Undertaking</a></p></div>
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To process my application, I give my express consent to DMI Finance for the below:<br>• To obtain my credit report(s) from credit bureaus.<br>• To fetch required information for KYC from approved agencies including UIDAI.</p></div>
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To reach out to me with personalized offers on products & services through SMS, WhatsApp, RCS, Email and telephonic calls/bots.</p></div>
@@ -555,6 +775,92 @@ function go(n){
     window.scrollTo(0,0);
     // Re-validate CTAs on screen change
     setTimeout(validateAllCTAs, 50);
+}
+
+// Pre-journey navigation
+function goP(id) {
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+}
+
+// Pre-journey validations
+function validatePreMobile() {
+    var val = document.getElementById('pre-mobile').value.trim();
+    var btn = document.getElementById('pre-send-otp-btn');
+    // Update OTP page with entered mobile
+    document.getElementById('pre-otp-mobile').textContent = '+91 ' + (val || '••••••••••');
+    if (val.length === 10) { btn.disabled = false; btn.style.background = 'linear-gradient(90deg, var(--cta-start), var(--cta-end))'; btn.style.color = '#fff'; }
+    else { btn.disabled = true; btn.style.background = '#333'; btn.style.color = '#aaa'; }
+}
+
+function validatePreOTP() {
+    var inputs = document.querySelectorAll('#pre3 .otp-input');
+    var allFilled = Array.from(inputs).every(function(i) { return i.value.length === 1; });
+    var btn = document.getElementById('pre-verify-otp-btn');
+    if (allFilled) { btn.disabled = false; btn.style.background = 'linear-gradient(90deg, var(--cta-start), var(--cta-end))'; btn.style.color = '#fff'; }
+    else { btn.disabled = true; btn.style.background = '#333'; btn.style.color = '#aaa'; }
+}
+
+function validateMPIN() {
+    var inputs = document.querySelectorAll('#pre5 .otp-input');
+    var allFilled = Array.from(inputs).every(function(i) { return i.value.length === 1; });
+    var btn = document.getElementById('pre-mpin-btn');
+    if (allFilled) { btn.disabled = false; btn.style.background = 'linear-gradient(90deg, var(--cta-start), var(--cta-end))'; btn.style.color = '#fff'; }
+    else { btn.disabled = true; btn.style.background = '#333'; btn.style.color = '#aaa'; }
+}
+
+// Permission checkbox toggle
+function togglePermChk(el) {
+    if (el.style.background === 'rgb(16, 185, 129)') {
+        el.style.background = 'transparent';
+        el.style.border = '2px solid var(--border)';
+        el.innerHTML = '';
+    } else {
+        el.style.background = '#10B981';
+        el.style.border = 'none';
+        el.innerHTML = '<span style="color:#fff;font-size:12px;font-weight:700">✓</span>';
+    }
+}
+
+// Welcome form selections
+function selectGender(el) {
+    document.querySelectorAll('.wel-gender').forEach(function(g) { g.style.borderColor = 'var(--border)'; g.style.background = 'transparent'; g.classList.remove('sel'); });
+    el.style.borderColor = 'var(--cyan)';
+    el.style.background = 'rgba(46,139,239,0.1)';
+    el.classList.add('sel');
+    validateWelcome();
+}
+
+function selectEmpType(el) {
+    document.querySelectorAll('.emp-type').forEach(function(e) { e.style.borderColor = 'var(--border)'; e.style.background = 'transparent'; e.classList.remove('sel'); });
+    el.style.borderColor = 'var(--cyan)';
+    el.style.background = 'rgba(46,139,239,0.08)';
+    el.classList.add('sel');
+    validateWelcome();
+}
+
+// Date of Birth auto-format dd/mm/yyyy
+function formatDOB(el) {
+    var val = el.value.replace(/[^0-9]/g, '');
+    if (val.length > 8) val = val.substring(0, 8);
+    if (val.length >= 5) { val = val.substring(0,2) + '/' + val.substring(2,4) + '/' + val.substring(4); }
+    else if (val.length >= 3) { val = val.substring(0,2) + '/' + val.substring(2); }
+    el.value = val;
+}
+
+// Welcome form validation
+function validateWelcome() {
+    var fname = document.getElementById('wel-fname').value.trim();
+    var lname = document.getElementById('wel-lname').value.trim();
+    var pan = document.getElementById('wel-pan').value.trim();
+    var dob = document.getElementById('wel-dob').value.trim();
+    var pin = document.getElementById('wel-pincode').value.trim();
+    var email = document.getElementById('wel-email').value.trim();
+    var hasGender = document.querySelector('.wel-gender.sel') !== null;
+    var hasEmp = document.querySelector('.emp-type.sel') !== null;
+    var btn = document.getElementById('wel-proceed-btn');
+    btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp);
 }
 
 // Slider amount update
