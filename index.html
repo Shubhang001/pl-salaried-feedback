@@ -114,11 +114,11 @@
         .stp .stxt p { font-size: 13px; color: var(--text-sec); line-height: 1.4; }
 
         /* Consent - Figma: checkbox 20x20, gap 30px from checkbox to text */
-        .con { display: flex; gap: 12px; margin-bottom: 2px; align-items: flex-start; }
-        .con .chk { width: 20px; height: 20px; border-radius: 4px; background: var(--border); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 20px; transition: 0.2s; }
+        .con { display: flex; gap: 10px; margin-bottom: 0px; align-items: flex-start; }
+        .con .chk { width: 18px; height: 18px; border-radius: 4px; background: var(--border); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 18px; transition: 0.2s; }
         .con .chk.checked { background: var(--cyan); border-color: var(--cyan); }
         .con .chk.checked::after { content: '✓'; color: #000; font-size: 12px; font-weight: 700; }
-        .con p { font-size: 13px; color: var(--text-sec); line-height: 1.5; }
+        .con p { font-size: 11px; color: var(--text-sec); line-height: 1.4; }
         .con a { color: var(--cyan); text-decoration: none; }
 
         /* Summary */
@@ -451,7 +451,7 @@
 <div class="screen" id="s2">
     <div class="hdr" style="position:relative"><button class="back" onclick="goP('pre4b')">←</button><h1>Just 3 easy steps</h1></div>
     <div class="cnt">
-        <img src="assets/ConsentScreen.png" alt="5 Steps Journey" style="width:100%;border-radius:12px;margin-bottom:12px">
+        <img src="assets/ConsentScreen.png" alt="5 Steps Journey" style="width:85%;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>I agree that the loan applied from DMI Finance Private Limited will be governed by the <a href="#">Loan application Undertaking</a></p></div>
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To process my application, I give my express consent to DMI Finance for the below:<br>• To obtain my credit report(s) from credit bureaus.<br>• To fetch required information for KYC from approved agencies including UIDAI.</p></div>
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To reach out to me with personalized offers on products & services through SMS, WhatsApp, RCS, Email and telephonic calls/bots.</p></div>
@@ -605,17 +605,21 @@
     <div class="cnt">
 
         <!-- SECTION 1: Residential Address -->
-        <p class="sec-title">Residential Address</p>
+        <p class="sec-title">Your Current Residential Address</p>
 
         <div id="res-cards-container">
-            <div class="card addr-card res-card" onclick="selectResCard(this)" ondblclick="editAddrCard(0,'res')" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
-                <p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 1</p>
-                <p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">Flat 402, Wing B, Sunrise Apartments, JP Nagar 2nd Phase, Bangalore, Karnataka - 560078</p>
+            <div class="card addr-card res-card" onclick="selectResCard(this)" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div style="flex:1"><p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 1</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">Flat 402, Wing B, Sunrise Apartments, JP Nagar 2nd Phase, Bangalore, Karnataka - 560078</p></div>
+                    <span onclick="event.stopPropagation();editAddrCard(0,'res')" style="cursor:pointer;color:var(--cyan);font-size:12px;font-weight:600;border:1px solid var(--cyan);padding:3px 10px;border-radius:6px;white-space:nowrap;margin-left:8px">Edit</span>
+                </div>
             </div>
 
-            <div class="card addr-card res-card" onclick="selectResCard(this)" ondblclick="editAddrCard(1,'res')" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
-                <p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 2</p>
-                <p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">12, MG Road, Indiranagar, Bangalore, Karnataka - 560038</p>
+            <div class="card addr-card res-card" onclick="selectResCard(this)" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div style="flex:1"><p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 2</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">12, MG Road, Indiranagar, Bangalore, Karnataka - 560038</p></div>
+                    <span onclick="event.stopPropagation();editAddrCard(1,'res')" style="cursor:pointer;color:var(--cyan);font-size:12px;font-weight:600;border:1px solid var(--cyan);padding:3px 10px;border-radius:6px;white-space:nowrap;margin-left:8px">Edit</span>
+                </div>
             </div>
         </div>
 
@@ -624,14 +628,9 @@
         </div>
 
         <!-- SECTION 2: Office Address -->
-        <p class="sec-title">Office Address</p>
+        <p class="sec-title" style="margin-bottom:6px">Your Office Address</p>
 
-        <div id="off-cards-container">
-            <div class="card addr-card off-card" onclick="selectOffCard(this)" ondblclick="editOfficeCard()" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
-                <p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">DMI Finance</p>
-                <p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">Express Building, 9-10, Bahadur Shah Zafar Marg, ITO, 110002, Central Delhi, Delhi</p>
-            </div>
-        </div>
+        <div id="off-cards-container"></div>
 
         <div onclick="openOfficeDrawer()" style="cursor:pointer;border:1px dashed var(--border);border-radius:14px;padding:14px 16px;text-align:center;transition:0.2s">
             <span style="color:var(--cyan);font-size:14px;font-weight:600">+ Add Office Address</span>
