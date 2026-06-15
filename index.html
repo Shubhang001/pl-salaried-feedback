@@ -342,19 +342,14 @@
         <div class="inp" style="width:100%"><label style="background:var(--bg)">Current Pincode</label><input id="wel-pincode" placeholder="" oninput="validateWelcome()"></div>
         <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel-email" placeholder="" oninput="validateWelcome()"></div>
 
-        <p style="font-size:14px;font-weight:600;width:100%;margin-bottom:8px">Employment Type</p>
-        <div style="width:100%;display:flex;flex-direction:column;gap:8px">
-            <div class="emp-type" data-type="salaried" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px">💼</span><span style="font-size:13px;font-weight:600">Salaried</span></div>
-            <div class="emp-type" data-type="self" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px">🎨</span><span style="font-size:13px;font-weight:600">Self-employed / Professional</span></div>
-            <div class="emp-type" data-type="other" onclick="selectEmpType(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);cursor:pointer"><span style="font-size:18px">👤</span><span style="font-size:13px;font-weight:600">Other</span></div>
-        </div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Employment Type</label><select id="wel-emp-type" onchange="handleEmpTypeChange(this);validateWelcome()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="salaried">Salaried</option><option value="self">Self-employed / Professional</option><option value="other">Other</option></select></div>
         <!-- Salaried extra fields (hidden by default) -->
-        <div id="salaried-fields" style="display:none;width:100%;margin-top:12px">
+        <div id="salaried-fields" style="display:none;width:100%;margin-top:4px">
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel-income" placeholder="" oninput="formatIncome(this);validateWelcome()"></div>
             <div class="inp" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel-company" placeholder="" oninput="filterWelCompanies();validateWelcome()" onfocus="showWelCompanyDropdown()" autocomplete="off"><div id="wel-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
         </div>
         <!-- Self-employed / Other extra fields (hidden by default) -->
-        <div id="self-employed-fields" style="display:none;width:100%;margin-top:12px">
+        <div id="self-employed-fields" style="display:none;width:100%;margin-top:4px">
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel-self-income" placeholder="" oninput="formatIncome(this);validateWelcome()"></div>
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel-business" placeholder="" oninput="validateWelcome()"></div>
         </div>
@@ -842,14 +837,13 @@ function selectGender(el) {
 }
 
 function selectEmpType(el) {
-    document.querySelectorAll('.emp-type').forEach(function(e) { e.style.borderColor = 'var(--border)'; e.style.background = 'transparent'; e.classList.remove('sel'); });
-    el.style.borderColor = 'var(--cyan)';
-    el.style.background = 'rgba(46,139,239,0.08)';
-    el.classList.add('sel');
-    // Show/hide extra fields based on type
+    // Legacy - kept for compatibility
+}
+
+function handleEmpTypeChange(sel) {
+    var type = sel.value;
     var salariedFields = document.getElementById('salaried-fields');
     var selfFields = document.getElementById('self-employed-fields');
-    var type = el.getAttribute('data-type');
     if (type === 'salaried') {
         salariedFields.style.display = 'block';
         selfFields.style.display = 'none';
@@ -888,20 +882,18 @@ function validateWelcome() {
     var pin = document.getElementById('wel-pincode').value.trim();
     var email = document.getElementById('wel-email').value.trim();
     var hasGender = document.querySelector('.wel-gender.sel') !== null;
-    var selEmp = document.querySelector('.emp-type.sel');
-    var hasEmp = selEmp !== null;
+    var empSelect = document.getElementById('wel-emp-type');
+    var empType = empSelect ? empSelect.value : '';
+    var hasEmp = empType !== '';
     var extraOk = true;
-    if (selEmp) {
-        var type = selEmp.getAttribute('data-type');
-        if (type === 'salaried') {
-            var income = document.getElementById('wel-income').value.trim();
-            var company = document.getElementById('wel-company').value.trim();
-            extraOk = income && company;
-        } else if (type === 'self' || type === 'other') {
-            var selfIncome = document.getElementById('wel-self-income').value.trim();
-            var business = document.getElementById('wel-business').value.trim();
-            extraOk = selfIncome && business;
-        }
+    if (empType === 'salaried') {
+        var income = document.getElementById('wel-income').value.trim();
+        var company = document.getElementById('wel-company').value.trim();
+        extraOk = income && company;
+    } else if (empType === 'self' || empType === 'other') {
+        var selfIncome = document.getElementById('wel-self-income').value.trim();
+        var business = document.getElementById('wel-business').value.trim();
+        extraOk = selfIncome && business;
     }
     var btn = document.getElementById('wel-proceed-btn');
     btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && extraOk);
