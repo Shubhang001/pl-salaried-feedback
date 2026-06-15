@@ -114,11 +114,11 @@
         .stp .stxt p { font-size: 13px; color: var(--text-sec); line-height: 1.4; }
 
         /* Consent - Figma: checkbox 20x20, gap 30px from checkbox to text */
-        .con { display: flex; gap: 10px; margin-bottom: 0px; align-items: flex-start; }
-        .con .chk { width: 18px; height: 18px; border-radius: 4px; background: var(--border); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 18px; transition: 0.2s; }
+        .con { display: flex; gap: 8px; margin-bottom: 0px; align-items: flex-start; }
+        .con .chk { width: 16px; height: 16px; border-radius: 3px; background: var(--border); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 16px; transition: 0.2s; }
         .con .chk.checked { background: var(--cyan); border-color: var(--cyan); }
         .con .chk.checked::after { content: '✓'; color: #000; font-size: 12px; font-weight: 700; }
-        .con p { font-size: 11px; color: var(--text-sec); line-height: 1.4; }
+        .con p { font-size: 11px; color: var(--text-sec); line-height: 1.3; }
         .con a { color: var(--cyan); text-decoration: none; }
 
         /* Summary */
@@ -449,14 +449,14 @@
 
 <!-- S2: Consent & Steps -->
 <div class="screen" id="s2">
-    <div class="hdr" style="position:relative"><button class="back" onclick="goP('pre4b')">←</button><h1>Just 3 easy steps</h1></div>
-    <div class="cnt">
-        <img src="assets/ConsentScreen.png" alt="5 Steps Journey" style="width:85%;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
+    <div class="hdr" style="position:relative;padding:12px 20px 8px"><button class="back" onclick="goP('pre4b')">←</button><h1>Just 3 easy steps</h1></div>
+    <div class="cnt" style="gap:6px">
+        <img src="assets/ConsentScreen.png" alt="5 Steps Journey" style="width:90%;border-radius:10px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto">
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>I agree that the loan applied from DMI Finance Private Limited will be governed by the <a href="#">Loan application Undertaking</a></p></div>
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To process my application, I give my express consent to DMI Finance for the below:<br>• To obtain my credit report(s) from credit bureaus.<br>• To fetch required information for KYC from approved agencies including UIDAI.</p></div>
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>To reach out to me with personalized offers on products & services through SMS, WhatsApp, RCS, Email and telephonic calls/bots.</p></div>
     </div>
-    <div class="ftr"><button class="cta" id="consent-btn" onclick="go(3)" disabled>Proceed</button></div>
+    <div class="ftr" style="padding:10px 20px 16px"><button class="cta" id="consent-btn" onclick="go(3)" disabled>Proceed</button></div>
 </div>
 
 <!-- S3: Offer View -->
