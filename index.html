@@ -315,8 +315,8 @@
     </div>
 </div>
 
-<!-- Pre-journey: Welcome Form Screen (COMMENTED OUT - not part of current journey flow)
-<div class="screen" id="pre4b">
+<!-- Pre-journey: Welcome Form Screen (COMMENTED OUT) -->
+<div class="screen" id="pre4b" style="display:none!important">
     <div class="cnt" style="padding-top:16px;align-items:center;gap:8px">
         <div style="font-size:50px;margin-bottom:8px">📱</div>
         <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
@@ -356,7 +356,6 @@
     </div>
     <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goP('pre4c')" disabled>Start My Application</button></div>
 </div>
--->
 
 <!-- Pre-journey: Welcome Form Screen 2 -->
 <div class="screen" id="pre4c">
@@ -390,8 +389,8 @@
     <div class="ftr"><button class="cta" id="wel2-proceed-btn" onclick="go(2)" disabled>Start My Application</button></div>
 </div>
 
-<!-- Pre-journey: Welcome Form Screen 3 (COMMENTED OUT - not part of current journey flow)
-<div class="screen" id="pre4d">
+<!-- Pre-journey: Welcome Form Screen 3 (COMMENTED OUT) -->
+<div class="screen" id="pre4d" style="display:none!important">
     <div class="cnt" style="padding-top:16px;align-items:center;gap:8px">
         <div style="font-size:50px;margin-bottom:8px">📱</div>
         <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
@@ -417,7 +416,6 @@
     </div>
     <div class="ftr"><button class="cta" id="wel3-proceed-btn" onclick="go(2)" disabled>Start My Application</button></div>
 </div>
--->
 
 <!-- Pre-journey: MPIN Screen (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="pre5">
@@ -1317,8 +1315,11 @@ function drawerProceed() {
     var ds = document.getElementById('addr-district-state').value.trim();
     if (currentDrawerType === 'res') {
         if (editingCardEl && editingCardEl.classList.contains('res-card')) {
-            editingCardEl.querySelector('.addr-card-title').textContent = 'Added Address';
             editingCardEl.querySelector('.addr-card-body').textContent = h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds;
+            // Auto-select the edited card
+            document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+            editingCardEl.classList.add('sel');
+            editingCardEl.style.borderColor = 'var(--cyan)';
         } else {
             addResCard(h, l, p, pin, ds);
         }
