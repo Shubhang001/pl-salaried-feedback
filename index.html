@@ -359,10 +359,10 @@
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel-business" placeholder="" oninput="validateWelcome()"></div>
         </div>
     </div>
-    <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goP('pre5')" disabled>Start My Application</button></div>
+    <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="go(2)" disabled>Start My Application</button></div>
 </div>
 
-<!-- Pre-journey: MPIN Screen -->
+<!-- Pre-journey: MPIN Screen (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="pre5">
     <div style="display:flex;justify-content:flex-end;padding:20px"><span style="color:var(--cyan);font-size:14px;font-weight:600;cursor:pointer" onclick="goP('pre6')">Skip</span></div>
     <div class="cnt" style="align-items:center;text-align:center">
@@ -375,8 +375,9 @@
     </div>
     <div class="ftr"><button class="cta" id="pre-mpin-btn" style="background:#333;color:#aaa" onclick="goP('pre6')" disabled>Set MPIN</button></div>
 </div>
+-->
 
-<!-- Pre-journey: Home/Welcome Screen -->
+<!-- Pre-journey: Home/Welcome Screen (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="pre6">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px">
         <div><span style="font-size:12px;color:var(--text-sec)">Hi</span><br><span style="font-size:14px;font-weight:600">shubhang</span></div>
@@ -404,13 +405,11 @@
             </div>
         </div>
         <div style="display:flex;gap:6px;justify-content:center;margin-bottom:16px"><span style="width:20px;height:6px;border-radius:3px;background:#fff"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--border)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--border)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--border)"></span></div>
-
         <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec);margin-bottom:10px">CREDIT SCORE</p>
         <div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
             <div><p style="font-size:14px;font-weight:600;line-height:1.4">Check your credit score<br>in less than a minute</p><span style="font-size:12px;color:var(--text-sec);margin-top:8px;display:inline-block;border:1px solid var(--border);padding:4px 10px;border-radius:12px">Get Report ›</span></div>
             <span style="font-size:40px">📊</span>
         </div>
-
         <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec);margin-bottom:10px">BILLS & RECHARGES</p>
         <div class="card" style="padding:14px">
             <div style="display:flex;gap:20px;justify-content:space-around">
@@ -421,7 +420,6 @@
             </div>
         </div>
     </div>
-    <!-- Bottom Nav Bar -->
     <div style="display:flex;justify-content:space-around;align-items:center;padding:12px 0;border-top:1px solid var(--border);margin-top:auto">
         <div style="text-align:center"><span style="font-size:18px">🏠</span><p style="font-size:10px;color:#fff;margin-top:2px;font-weight:600">Home</p></div>
         <div style="text-align:center"><span style="font-size:18px">🎁</span><p style="font-size:10px;color:var(--text-sec);margin-top:2px">Offers</p></div>
@@ -430,6 +428,7 @@
         <div style="text-align:center"><span style="font-size:18px">🎧</span><p style="font-size:10px;color:var(--text-sec);margin-top:2px">Support</p></div>
     </div>
 </div>
+-->
 
 <!-- S1: Home Banner (COMMENTED OUT - not part of current journey flow)
 <div class="screen" id="s1">
@@ -450,7 +449,7 @@
 
 <!-- S2: Consent & Steps -->
 <div class="screen" id="s2">
-    <div class="hdr" style="position:relative"><button class="back" onclick="goP('pre6')">←</button><h1>Just 3 easy steps</h1></div>
+    <div class="hdr" style="position:relative"><button class="back" onclick="goP('pre4b')">←</button><h1>Just 3 easy steps</h1></div>
     <div class="cnt">
         <img src="assets/ConsentScreen.png" alt="5 Steps Journey" style="width:100%;border-radius:12px;margin-bottom:12px">
         <div class="con"><div class="chk" onclick="this.classList.toggle('checked');validateConsent()" style="cursor:pointer"></div><p>I agree that the loan applied from DMI Finance Private Limited will be governed by the <a href="#">Loan application Undertaking</a></p></div>
