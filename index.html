@@ -354,7 +354,67 @@
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel-business" placeholder="" oninput="validateWelcome()"></div>
         </div>
     </div>
-    <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="go(2)" disabled>Start My Application</button></div>
+    <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goP('pre4c')" disabled>Start My Application</button></div>
+</div>
+
+<!-- Pre-journey: Welcome Form Screen 2 -->
+<div class="screen" id="pre4c">
+    <div class="cnt" style="padding-top:16px;align-items:center;gap:8px">
+        <div style="font-size:50px;margin-bottom:8px">📱</div>
+        <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
+        <p style="font-size:13px;color:var(--text-sec);text-align:center;margin-top:4px;margin-bottom:20px">Tell us a bit about yourself</p>
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel2-fname" placeholder="" oninput="validateWelcome2()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel2-lname" placeholder="" oninput="validateWelcome2()"></div>
+        </div>
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel2-pan" placeholder="" oninput="validateWelcome2()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Date of Birth</label><input id="wel2-dob" placeholder="dd/mm/yyyy" maxlength="10" oninput="formatDOB(this);validateWelcome2()"><span class="act">📅</span></div>
+        </div>
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:0 0 58%;margin-bottom:0"><label style="background:var(--bg)">Current Pincode</label><input id="wel2-pincode" placeholder="" oninput="validateWelcome2()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Gender</label><select id="wel2-gender" onchange="validateWelcome2()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+        </div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel2-email" placeholder="" oninput="validateWelcome2()"></div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Employment Type</label><select id="wel2-emp-type" onchange="handleEmpTypeChange2(this);validateWelcome2()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="salaried">Salaried</option><option value="self">Self-employed / Professional</option><option value="other">Other</option></select></div>
+        <div id="salaried-fields-2" style="display:none;width:100%;margin-top:4px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel2-income" placeholder="" oninput="formatIncome(this);validateWelcome2()"></div>
+            <div class="inp" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel2-company" placeholder="" oninput="filterWelCompanies2();validateWelcome2()" onfocus="filterWelCompanies2()" autocomplete="off"><div id="wel2-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
+        </div>
+        <div id="self-employed-fields-2" style="display:none;width:100%;margin-top:4px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel2-self-income" placeholder="" oninput="formatIncome(this);validateWelcome2()"></div>
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel2-business" placeholder="" oninput="validateWelcome2()"></div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" id="wel2-proceed-btn" onclick="goP('pre4d')" disabled>Start My Application</button></div>
+</div>
+
+<!-- Pre-journey: Welcome Form Screen 3 -->
+<div class="screen" id="pre4d">
+    <div class="cnt" style="padding-top:16px;align-items:center;gap:8px">
+        <div style="font-size:50px;margin-bottom:8px">📱</div>
+        <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
+        <p style="font-size:13px;color:var(--text-sec);text-align:center;margin-top:4px;margin-bottom:20px">Tell us a bit about yourself</p>
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel3-fname" placeholder="" oninput="validateWelcome3()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel3-lname" placeholder="" oninput="validateWelcome3()"></div>
+        </div>
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel3-pan" placeholder="" oninput="validateWelcome3()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Current Pincode</label><input id="wel3-pincode" placeholder="" oninput="validateWelcome3()"></div>
+        </div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel3-email" placeholder="" oninput="validateWelcome3()"></div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Employment Type</label><select id="wel3-emp-type" onchange="handleEmpTypeChange3(this);validateWelcome3()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="salaried">Salaried</option><option value="self">Self-employed / Professional</option><option value="other">Other</option></select></div>
+        <div id="salaried-fields-3" style="display:none;width:100%;margin-top:4px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel3-income" placeholder="" oninput="formatIncome(this);validateWelcome3()"></div>
+            <div class="inp" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel3-company" placeholder="" oninput="filterWelCompanies3();validateWelcome3()" onfocus="filterWelCompanies3()" autocomplete="off"><div id="wel3-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
+        </div>
+        <div id="self-employed-fields-3" style="display:none;width:100%;margin-top:4px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel3-self-income" placeholder="" oninput="formatIncome(this);validateWelcome3()"></div>
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel3-business" placeholder="" oninput="validateWelcome3()"></div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" id="wel3-proceed-btn" onclick="go(2)" disabled>Start My Application</button></div>
 </div>
 
 <!-- Pre-journey: MPIN Screen (COMMENTED OUT - not part of current journey flow)
@@ -835,6 +895,14 @@ function selectGender(el) {
     el.classList.add('sel');
     validateWelcome();
 }
+function selectGender2(el) {
+    document.querySelectorAll('.wel2-gender').forEach(function(g) { g.style.borderColor = 'var(--border)'; g.style.background = 'transparent'; g.classList.remove('sel'); });
+    el.style.borderColor = 'var(--cyan)'; el.style.background = 'rgba(46,139,239,0.1)'; el.classList.add('sel'); validateWelcome2();
+}
+function selectGender3(el) {
+    document.querySelectorAll('.wel3-gender').forEach(function(g) { g.style.borderColor = 'var(--border)'; g.style.background = 'transparent'; g.classList.remove('sel'); });
+    el.style.borderColor = 'var(--cyan)'; el.style.background = 'rgba(46,139,239,0.1)'; el.classList.add('sel'); validateWelcome3();
+}
 
 function selectEmpType(el) {
     // Legacy - kept for compatibility
@@ -844,17 +912,26 @@ function handleEmpTypeChange(sel) {
     var type = sel.value;
     var salariedFields = document.getElementById('salaried-fields');
     var selfFields = document.getElementById('self-employed-fields');
-    if (type === 'salaried') {
-        salariedFields.style.display = 'block';
-        selfFields.style.display = 'none';
-    } else if (type === 'self' || type === 'other') {
-        salariedFields.style.display = 'none';
-        selfFields.style.display = 'block';
-    } else {
-        salariedFields.style.display = 'none';
-        selfFields.style.display = 'none';
-    }
+    if (type === 'salaried') { salariedFields.style.display = 'block'; selfFields.style.display = 'none'; }
+    else if (type === 'self' || type === 'other') { salariedFields.style.display = 'none'; selfFields.style.display = 'block'; }
+    else { salariedFields.style.display = 'none'; selfFields.style.display = 'none'; }
     validateWelcome();
+}
+function handleEmpTypeChange2(sel) {
+    var type = sel.value;
+    var s = document.getElementById('salaried-fields-2'); var se = document.getElementById('self-employed-fields-2');
+    if (type === 'salaried') { s.style.display = 'block'; se.style.display = 'none'; }
+    else if (type === 'self' || type === 'other') { s.style.display = 'none'; se.style.display = 'block'; }
+    else { s.style.display = 'none'; se.style.display = 'none'; }
+    validateWelcome2();
+}
+function handleEmpTypeChange3(sel) {
+    var type = sel.value;
+    var s = document.getElementById('salaried-fields-3'); var se = document.getElementById('self-employed-fields-3');
+    if (type === 'salaried') { s.style.display = 'block'; se.style.display = 'none'; }
+    else if (type === 'self' || type === 'other') { s.style.display = 'none'; se.style.display = 'block'; }
+    else { s.style.display = 'none'; se.style.display = 'none'; }
+    validateWelcome3();
 }
 
 // Date of Birth auto-format dd/mm/yyyy
@@ -899,6 +976,36 @@ function validateWelcome() {
     btn.disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && extraOk);
 }
 
+function validateWelcome2() {
+    var fname = document.getElementById('wel2-fname').value.trim();
+    var lname = document.getElementById('wel2-lname').value.trim();
+    var pan = document.getElementById('wel2-pan').value.trim();
+    var dob = document.getElementById('wel2-dob').value.trim();
+    var pin = document.getElementById('wel2-pincode').value.trim();
+    var email = document.getElementById('wel2-email').value.trim();
+    var hasGender = document.getElementById('wel2-gender').value !== '';
+    var empType = document.getElementById('wel2-emp-type').value;
+    var hasEmp = empType !== '';
+    var extraOk = true;
+    if (empType === 'salaried') { extraOk = document.getElementById('wel2-income').value.trim() && document.getElementById('wel2-company').value.trim(); }
+    else if (empType === 'self' || empType === 'other') { extraOk = document.getElementById('wel2-self-income').value.trim() && document.getElementById('wel2-business').value.trim(); }
+    document.getElementById('wel2-proceed-btn').disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && extraOk);
+}
+
+function validateWelcome3() {
+    var fname = document.getElementById('wel3-fname').value.trim();
+    var lname = document.getElementById('wel3-lname').value.trim();
+    var pan = document.getElementById('wel3-pan').value.trim();
+    var pin = document.getElementById('wel3-pincode').value.trim();
+    var email = document.getElementById('wel3-email').value.trim();
+    var empType = document.getElementById('wel3-emp-type').value;
+    var hasEmp = empType !== '';
+    var extraOk = true;
+    if (empType === 'salaried') { extraOk = document.getElementById('wel3-income').value.trim() && document.getElementById('wel3-company').value.trim(); }
+    else if (empType === 'self' || empType === 'other') { extraOk = document.getElementById('wel3-self-income').value.trim() && document.getElementById('wel3-business').value.trim(); }
+    document.getElementById('wel3-proceed-btn').disabled = !(fname && lname && pan && pin && email && hasEmp && extraOk);
+}
+
 // Welcome Company Name dropdown
 function showWelCompanyDropdown() { filterWelCompanies(); }
 
@@ -922,7 +1029,45 @@ document.addEventListener('click', function(e) {
     if (!e.target.closest('#wel-company') && !e.target.closest('#wel-company-dropdown')) {
         document.getElementById('wel-company-dropdown').style.display = 'none';
     }
+    if (!e.target.closest('#wel2-company') && !e.target.closest('#wel2-company-dropdown')) {
+        document.getElementById('wel2-company-dropdown').style.display = 'none';
+    }
+    if (!e.target.closest('#wel3-company') && !e.target.closest('#wel3-company-dropdown')) {
+        document.getElementById('wel3-company-dropdown').style.display = 'none';
+    }
 });
+
+function filterWelCompanies2() {
+    var input = document.getElementById('wel2-company').value.trim().toLowerCase();
+    var dd = document.getElementById('wel2-company-dropdown');
+    var filtered = companyList.filter(function(c) { return c.toLowerCase().indexOf(input) !== -1; });
+    if (filtered.length === 0 || (filtered.length === 1 && filtered[0].toLowerCase() === input)) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    filtered.forEach(function(c) {
+        var item = document.createElement('div');
+        item.textContent = c;
+        item.style.cssText = 'padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);color:var(--text)';
+        item.onmousedown = function() { document.getElementById('wel2-company').value = c; dd.style.display = 'none'; validateWelcome2(); };
+        dd.appendChild(item);
+    });
+    dd.style.display = 'block';
+}
+
+function filterWelCompanies3() {
+    var input = document.getElementById('wel3-company').value.trim().toLowerCase();
+    var dd = document.getElementById('wel3-company-dropdown');
+    var filtered = companyList.filter(function(c) { return c.toLowerCase().indexOf(input) !== -1; });
+    if (filtered.length === 0 || (filtered.length === 1 && filtered[0].toLowerCase() === input)) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    filtered.forEach(function(c) {
+        var item = document.createElement('div');
+        item.textContent = c;
+        item.style.cssText = 'padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);color:var(--text)';
+        item.onmousedown = function() { document.getElementById('wel3-company').value = c; dd.style.display = 'none'; validateWelcome3(); };
+        dd.appendChild(item);
+    });
+    dd.style.display = 'block';
+}
 
 // Slider amount update
 function updateSliderAmount(slider) {
