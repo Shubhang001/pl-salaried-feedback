@@ -100,7 +100,7 @@
 
         /* Slider */
         .sld { margin: 12px 0; }
-        .sld input[type=range] { width: 100%; height: 4px; -webkit-appearance: none; appearance: none; background: linear-gradient(90deg, var(--blue) 80%, var(--border) 80%); border-radius: 2px; outline: none; }
+        .sld input[type=range] { width: 100%; height: 4px; -webkit-appearance: none; appearance: none; background: linear-gradient(90deg, var(--blue) 100%, var(--border) 100%); border-radius: 2px; outline: none; }
         .sld input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); border: 3px solid #fff; cursor: pointer; }
         .sld .labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sec); margin-top: 6px; }
 
@@ -543,7 +543,7 @@
         </div>
         <p class="disc">*ROI of 2% p.m. calculated on an annualised interest rate of 24% on reducing balance</p>
     </div>
-    <div class="ftr"><button class="cta" onclick="go(7)">Continue</button></div>
+    <div class="ftr"><button class="cta" onclick="passOfferToConfirm();go(7)">Continue</button></div>
 </div>
 
 <!-- S4: e-Verify Income (COMMENTED OUT - not part of current journey flow)
@@ -605,9 +605,9 @@
     <div class="cnt">
         <p style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-sec)">TERM LOAN</p>
         <div class="card">
-            <div class="srow"><span class="l">Amount</span><span class="v">₹50,000</span></div>
-            <div class="srow"><span class="l">Duration</span><span class="v">30 Months</span></div>
-            <div class="srow"><span class="l">EMI</span><span class="v">₹3,822</span></div>
+            <div class="srow"><span class="l">Amount</span><span class="v" id="s7-amount">₹50,000</span></div>
+            <div class="srow"><span class="l">Duration</span><span class="v" id="s7-duration">30 Months</span></div>
+            <div class="srow"><span class="l">EMI</span><span class="v" id="s7-emi">₹3,822</span></div>
             <div class="srow"><span class="l">Processing Fees</span><div><span class="v">₹5,099</span><br><span style="font-size:12px;color:var(--text-muted);text-decoration:line-through">₹5,499</span></div></div>
             <div style="background:rgba(168,130,60,0.2);border-radius:10px;padding:12px;margin-top:14px;display:flex;align-items:center;gap:10px">
                 <img src="assets/coin.png" alt="coin" style="width:28px;height:28px;object-fit:contain">
@@ -776,9 +776,9 @@
     <div class="prog"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
     <div class="cnt">
         <div class="card">
-            <div class="srow"><span class="l">Loan Amount</span><span class="v">₹1,09,000</span></div>
-            <div class="srow"><span class="l">Loan Tenure</span><span class="v">24 months</span></div>
-            <div class="srow"><span class="l">EMI Amount</span><span class="v">₹9,504</span></div>
+            <div class="srow"><span class="l">Loan Amount</span><span class="v" id="s14-amount">₹1,09,000</span></div>
+            <div class="srow"><span class="l">Loan Tenure</span><span class="v" id="s14-tenure">24 months</span></div>
+            <div class="srow"><span class="l">EMI Amount</span><span class="v" id="s14-emi">₹9,504</span></div>
             <div class="srow"><span class="l">Processing Fee (inc. GST)</span><span class="v">₹800</span></div>
             <div class="srow"><span class="l" style="font-weight:600;color:#fff">Net Disbursal</span><span class="v">₹99,001</span></div>
         </div>
@@ -1067,6 +1067,26 @@ function filterWelCompanies3() {
         dd.appendChild(item);
     });
     dd.style.display = 'block';
+}
+
+// Pass offer selection to confirm and reconfirm pages
+function passOfferToConfirm() {
+    var amount = document.getElementById('slider-amount').textContent;
+    var selectedEmi = document.querySelector('.emi.sel');
+    var duration = '';
+    var emi = '';
+    if (selectedEmi) {
+        duration = selectedEmi.querySelector('.t').textContent;
+        emi = selectedEmi.querySelector('.a').textContent.replace(' EMI', '');
+    }
+    // Update S7 Confirm Offer
+    document.getElementById('s7-amount').textContent = amount;
+    document.getElementById('s7-duration').textContent = duration;
+    document.getElementById('s7-emi').textContent = emi;
+    // Update S14 Reconfirm
+    document.getElementById('s14-amount').textContent = amount;
+    document.getElementById('s14-tenure').textContent = duration;
+    document.getElementById('s14-emi').textContent = emi;
 }
 
 // Slider amount update
