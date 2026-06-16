@@ -665,14 +665,16 @@
 
         <div id="res-cards-container">
             <div class="card addr-card res-card" onclick="selectResCard(this)" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
-                <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <div class="res-chk" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s"></div>
                     <div style="flex:1"><p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 1</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">Flat 402, Wing B, Sunrise Apartments, JP Nagar 2nd Phase, Bangalore, Karnataka - 560078</p></div>
                     <span onclick="event.stopPropagation();editAddrCard(0,'res')" style="cursor:pointer;color:var(--cyan);font-size:12px;font-weight:600;border:1px solid var(--cyan);padding:3px 10px;border-radius:6px;white-space:nowrap;margin-left:8px">Edit</span>
                 </div>
             </div>
 
             <div class="card addr-card res-card" onclick="selectResCard(this)" style="cursor:pointer;border:2px solid transparent;transition:0.2s;padding:14px 16px;margin-bottom:12px">
-                <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <div class="res-chk" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s"></div>
                     <div style="flex:1"><p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Home Address 2</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">12, MG Road, Indiranagar, Bangalore, Karnataka - 560038</p></div>
                     <span onclick="event.stopPropagation();editAddrCard(1,'res')" style="cursor:pointer;color:var(--cyan);font-size:12px;font-weight:600;border:1px solid var(--cyan);padding:3px 10px;border-radius:6px;white-space:nowrap;margin-left:8px">Edit</span>
                 </div>
@@ -1239,17 +1241,21 @@ var offSelected = false;
 var currentDrawerType = 'res'; // 'res' or 'off'
 
 function selectResCard(el) {
-    document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; var chk = c.querySelector('.res-chk'); if(chk){chk.style.border='2px solid var(--border)';chk.style.background='transparent';chk.innerHTML='';} });
     el.classList.add('sel');
     el.style.borderColor = 'var(--cyan)';
+    var chk = el.querySelector('.res-chk');
+    if(chk){chk.style.border='none';chk.style.background='var(--cyan)';chk.innerHTML='<span style="color:#000;font-size:11px;font-weight:700">✓</span>';}
     resSelected = true;
     updateMainProceed();
 }
 
 function selectOffCard(el) {
-    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; var chk = c.querySelector('.off-chk'); if(chk){chk.style.border='2px solid var(--border)';chk.style.background='transparent';chk.innerHTML='';} });
     el.classList.add('sel');
     el.style.borderColor = 'var(--cyan)';
+    var chk = el.querySelector('.off-chk');
+    if(chk){chk.style.border='none';chk.style.background='var(--cyan)';chk.innerHTML='<span style="color:#000;font-size:11px;font-weight:700">✓</span>';}
     offSelected = true;
     updateMainProceed();
 }
@@ -1337,9 +1343,10 @@ function drawerProceed() {
         if (editingCardEl && editingCardEl.classList.contains('res-card')) {
             editingCardEl.querySelector('.addr-card-body').textContent = h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds;
             // Auto-select the edited card
-            document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+            document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; var chk = c.querySelector('.res-chk'); if(chk){chk.style.border='2px solid var(--border)';chk.style.background='transparent';chk.innerHTML='';} });
             editingCardEl.classList.add('sel');
             editingCardEl.style.borderColor = 'var(--cyan)';
+            var chk = editingCardEl.querySelector('.res-chk'); if(chk){chk.style.border='none';chk.style.background='var(--cyan)';chk.innerHTML='<span style="color:#000;font-size:11px;font-weight:700">✓</span>';}
         } else {
             addResCard(h, l, p, pin, ds);
         }
@@ -1367,11 +1374,11 @@ function addResCard(h, l, p, pin, ds) {
     var card = document.createElement('div');
     card.className = 'card addr-card res-card';
     card.style.cssText = 'cursor:pointer;border:2px solid var(--cyan);transition:0.2s;padding:14px 16px;margin-bottom:12px';
-    card.innerHTML = '<p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Added Address</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p>';
+    card.innerHTML = '<div style="display:flex;align-items:center;gap:12px"><div class="res-chk" style="width:20px;height:20px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#000;font-size:11px;font-weight:700">✓</span></div><div style="flex:1"><p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">Added Address</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p></div></div>';
     card.onclick = function() { selectResCard(card); };
     card.ondblclick = function() { editDynamicResCard(card, h, l, p, pin, ds); };
     card.classList.add('sel');
-    document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    document.querySelectorAll('.res-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; var chk = c.querySelector('.res-chk'); if(chk){chk.style.border='2px solid var(--border)';chk.style.background='transparent';chk.innerHTML='';} });
     card.style.borderColor = 'var(--cyan)';
     container.appendChild(card);
 }
@@ -1540,10 +1547,10 @@ function addOfficeCard(co, h, l, p, pin, ds) {
     var card = document.createElement('div');
     card.className = 'card addr-card off-card';
     card.style.cssText = 'cursor:pointer;border:2px solid var(--cyan);transition:0.2s;padding:14px 16px;margin-bottom:12px';
-    card.innerHTML = '<p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">' + (co || 'Office Address') + '</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p>';
+    card.innerHTML = '<div style="display:flex;align-items:center;gap:12px"><div class="off-chk" style="width:20px;height:20px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#000;font-size:11px;font-weight:700">✓</span></div><div style="flex:1"><p class="addr-card-title" style="font-size:13px;font-weight:600;margin-bottom:4px">' + (co || 'Office Address') + '</p><p class="addr-card-body" style="font-size:13px;color:var(--text-sec);line-height:1.5">' + h + ', ' + l + ', ' + p + ', ' + pin + ', ' + ds + '</p></div></div>';
     card.onclick = function() { selectOffCard(card); };
     card.ondblclick = function() { editDynamicOffCard(card, co, h, l, p, pin, ds); };
-    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; });
+    document.querySelectorAll('.off-card').forEach(function(c) { c.classList.remove('sel'); c.style.borderColor = 'transparent'; var chk = c.querySelector('.off-chk'); if(chk){chk.style.border='2px solid var(--border)';chk.style.background='transparent';chk.innerHTML='';} });
     card.style.borderColor = 'var(--cyan)';
     container.appendChild(card);
 }
