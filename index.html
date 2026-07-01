@@ -75,6 +75,9 @@
         .inp.in-card label { background: var(--card); }
         .inp input, .inp select { width: 100%; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; height: 42px; }
         .inp input:focus { border-color: var(--cyan); }
+        .inp.error input, .inp.error select { border-color: #EF4444 !important; }
+        .inp .error-msg { font-size: 11px; color: #EF4444; margin-top: 4px; padding-left: 2px; display: none; }
+        .inp.error .error-msg { display: block; }
         .inp .act { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--cyan); font-size: 13px; font-weight: 600; }
         .inp .hint { font-size: 12px; color: var(--text-sec); margin-top: 6px; padding-left: 2px; }
 
@@ -364,29 +367,29 @@
         <h2 style="font-size:22px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
         <p style="font-size:13px;color:var(--text-sec);text-align:center;margin-top:4px;margin-bottom:20px">Tell us a bit about yourself</p>
         <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
-            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel2-fname" placeholder="" oninput="validateWelcome2()"></div>
-            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel2-lname" placeholder="" oninput="validateWelcome2()"></div>
+            <div class="inp" id="wel2-fname-wrap" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel2-fname" placeholder="" oninput="clearFieldError('wel2-fname-wrap');validateWelcome2()"><span class="error-msg">First name is required</span></div>
+            <div class="inp" id="wel2-lname-wrap" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel2-lname" placeholder="" oninput="clearFieldError('wel2-lname-wrap');validateWelcome2()"><span class="error-msg">Last name is required</span></div>
         </div>
         <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
-            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel2-pan" placeholder="" oninput="validateWelcome2()"></div>
-            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Date of Birth</label><input id="wel2-dob" placeholder="dd/mm/yyyy" maxlength="10" oninput="formatDOB(this);validateWelcome2()"><span class="act">📅</span></div>
+            <div class="inp" id="wel2-pan-wrap" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel2-pan" placeholder="" maxlength="10" oninput="clearFieldError('wel2-pan-wrap');validateWelcome2()"><span class="error-msg">Enter valid PAN (e.g. ABCDE1234F)</span></div>
+            <div class="inp" id="wel2-dob-wrap" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Date of Birth</label><input id="wel2-dob" placeholder="dd/mm/yyyy" maxlength="10" oninput="formatDOB(this);clearFieldError('wel2-dob-wrap');validateWelcome2()"><span class="act">📅</span><span class="error-msg">Enter valid date (dd/mm/yyyy)</span></div>
         </div>
         <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
-            <div class="inp" style="flex:0 0 calc(40% - 5px);margin-bottom:0"><label style="background:var(--bg)">Gender</label><select id="wel2-gender" onchange="validateWelcome2()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
-            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Current Pincode</label><input id="wel2-pincode" placeholder="" oninput="validateWelcome2()"></div>
+            <div class="inp" id="wel2-gender-wrap" style="flex:0 0 calc(40% - 5px);margin-bottom:0"><label style="background:var(--bg)">Gender</label><select id="wel2-gender" onchange="clearFieldError('wel2-gender-wrap');validateWelcome2()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select><span class="error-msg">Please select gender</span></div>
+            <div class="inp" id="wel2-pincode-wrap" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Current Pincode</label><input id="wel2-pincode" placeholder="" maxlength="6" oninput="clearFieldError('wel2-pincode-wrap');validateWelcome2()"><span class="error-msg">Enter valid 6-digit pincode</span></div>
         </div>
-        <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel2-email" placeholder="" oninput="validateWelcome2()"></div>
-        <div class="inp" style="width:100%"><label style="background:var(--bg)">Employment Type</label><select id="wel2-emp-type" onchange="handleEmpTypeChange2(this);validateWelcome2()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="salaried">Salaried</option><option value="self">Self-employed / Professional</option><option value="other">Other</option></select></div>
+        <div class="inp" id="wel2-email-wrap" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel2-email" placeholder="" oninput="clearFieldError('wel2-email-wrap');validateWelcome2()"><span class="error-msg">Enter a valid email address</span></div>
+        <div class="inp" id="wel2-emp-type-wrap" style="width:100%"><label style="background:var(--bg)">Employment Type</label><select id="wel2-emp-type" onchange="clearFieldError('wel2-emp-type-wrap');handleEmpTypeChange2(this);validateWelcome2()" style="background:var(--card);color:var(--text);appearance:auto"><option value="">-- Select --</option><option value="salaried">Salaried</option><option value="self">Self-employed / Professional</option><option value="other">Other</option></select><span class="error-msg">Please select employment type</span></div>
         <div id="salaried-fields-2" style="display:none;width:100%;margin-top:4px">
-            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel2-income" placeholder="" oninput="formatIncome(this);validateWelcome2()"></div>
-            <div class="inp" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel2-company" placeholder="" oninput="filterWelCompanies2();validateWelcome2()" onfocus="filterWelCompanies2()" autocomplete="off"><div id="wel2-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
+            <div class="inp" id="wel2-income-wrap" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel2-income" placeholder="" oninput="clearFieldError('wel2-income-wrap');formatIncome(this);validateWelcome2()"><span class="error-msg">Monthly income is required</span></div>
+            <div class="inp" id="wel2-company-wrap" style="width:100%;position:relative"><label style="background:var(--bg)">Company Name</label><input id="wel2-company" placeholder="" oninput="clearFieldError('wel2-company-wrap');filterWelCompanies2();validateWelcome2()" onfocus="filterWelCompanies2()" autocomplete="off"><span class="error-msg">Company name is required</span><div id="wel2-company-dropdown" style="display:none;position:absolute;top:52px;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;max-height:180px;overflow-y:auto;z-index:10"></div></div>
         </div>
         <div id="self-employed-fields-2" style="display:none;width:100%;margin-top:4px">
-            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel2-self-income" placeholder="" oninput="formatIncome(this);validateWelcome2()"></div>
-            <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel2-business" placeholder="" oninput="validateWelcome2()"></div>
+            <div class="inp" id="wel2-self-income-wrap" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel2-self-income" placeholder="" oninput="clearFieldError('wel2-self-income-wrap');formatIncome(this);validateWelcome2()"><span class="error-msg">Monthly salary is required</span></div>
+            <div class="inp" id="wel2-business-wrap" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel2-business" placeholder="" oninput="clearFieldError('wel2-business-wrap');validateWelcome2()"><span class="error-msg">Business name is required</span></div>
         </div>
     </div>
-    <div class="ftr"><button class="cta" id="wel2-proceed-btn" onclick="go(2)" disabled>Start My Application</button></div>
+    <div class="ftr"><button class="cta" id="wel2-proceed-btn" onclick="attemptWelcome2Proceed()" style="background:var(--cta-disabled);color:rgba(255,255,255,0.4);opacity:0.7">Start My Application</button></div>
 </div>
 
 <!-- Pre-journey: Welcome Form Screen 3 (COMMENTED OUT) -->
@@ -991,7 +994,88 @@ function validateWelcome2() {
     var extraOk = true;
     if (empType === 'salaried') { extraOk = document.getElementById('wel2-income').value.trim() && document.getElementById('wel2-company').value.trim(); }
     else if (empType === 'self' || empType === 'other') { extraOk = document.getElementById('wel2-self-income').value.trim() && document.getElementById('wel2-business').value.trim(); }
-    document.getElementById('wel2-proceed-btn').disabled = !(fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && extraOk);
+    var valid = fname && lname && isValidPAN(pan) && isValidDOB(dob) && isValidPincode(pin) && isValidEmail(email) && hasGender && hasEmp && extraOk;
+    var btn = document.getElementById('wel2-proceed-btn');
+    if (valid) {
+        btn.style.background = 'linear-gradient(90deg, var(--cta-start), var(--cta-end))';
+        btn.style.color = '#fff';
+        btn.style.opacity = '1';
+    } else {
+        btn.style.background = 'var(--cta-disabled)';
+        btn.style.color = 'rgba(255,255,255,0.4)';
+        btn.style.opacity = '0.7';
+    }
+}
+
+function clearFieldError(wrapId) {
+    var wrap = document.getElementById(wrapId);
+    if (wrap) wrap.classList.remove('error');
+}
+
+function isValidPAN(pan) {
+    return /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan.toUpperCase());
+}
+
+function isValidDOB(dob) {
+    if (dob.length !== 10) return false;
+    var parts = dob.split('/');
+    if (parts.length !== 3) return false;
+    var dd = parseInt(parts[0], 10);
+    var mm = parseInt(parts[1], 10);
+    var yyyy = parseInt(parts[2], 10);
+    if (isNaN(dd) || isNaN(mm) || isNaN(yyyy)) return false;
+    if (dd < 1 || dd > 31 || mm < 1 || mm > 12 || yyyy < 1900 || yyyy > 2010) return false;
+    var date = new Date(yyyy, mm - 1, dd);
+    return date.getDate() === dd && date.getMonth() === mm - 1 && date.getFullYear() === yyyy;
+}
+
+function isValidPincode(pin) {
+    return /^[1-9][0-9]{5}$/.test(pin);
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function attemptWelcome2Proceed() {
+    var hasError = false;
+    var fname = document.getElementById('wel2-fname').value.trim();
+    var lname = document.getElementById('wel2-lname').value.trim();
+    var pan = document.getElementById('wel2-pan').value.trim();
+    var dob = document.getElementById('wel2-dob').value.trim();
+    var pin = document.getElementById('wel2-pincode').value.trim();
+    var email = document.getElementById('wel2-email').value.trim();
+    var gender = document.getElementById('wel2-gender').value;
+    var empType = document.getElementById('wel2-emp-type').value;
+
+    // Clear all previous errors
+    var wraps = document.querySelectorAll('#pre4c .inp');
+    wraps.forEach(function(w) { w.classList.remove('error'); });
+
+    if (!fname) { document.getElementById('wel2-fname-wrap').classList.add('error'); hasError = true; }
+    if (!lname) { document.getElementById('wel2-lname-wrap').classList.add('error'); hasError = true; }
+    if (!pan || !isValidPAN(pan)) { document.getElementById('wel2-pan-wrap').classList.add('error'); hasError = true; }
+    if (!dob || !isValidDOB(dob)) { document.getElementById('wel2-dob-wrap').classList.add('error'); hasError = true; }
+    if (!gender) { document.getElementById('wel2-gender-wrap').classList.add('error'); hasError = true; }
+    if (!pin || !isValidPincode(pin)) { document.getElementById('wel2-pincode-wrap').classList.add('error'); hasError = true; }
+    if (!email || !isValidEmail(email)) { document.getElementById('wel2-email-wrap').classList.add('error'); hasError = true; }
+    if (!empType) { document.getElementById('wel2-emp-type-wrap').classList.add('error'); hasError = true; }
+
+    if (empType === 'salaried') {
+        var income = document.getElementById('wel2-income').value.trim();
+        var company = document.getElementById('wel2-company').value.trim();
+        if (!income) { document.getElementById('wel2-income-wrap').classList.add('error'); hasError = true; }
+        if (!company) { document.getElementById('wel2-company-wrap').classList.add('error'); hasError = true; }
+    } else if (empType === 'self' || empType === 'other') {
+        var selfIncome = document.getElementById('wel2-self-income').value.trim();
+        var business = document.getElementById('wel2-business').value.trim();
+        if (!selfIncome) { document.getElementById('wel2-self-income-wrap').classList.add('error'); hasError = true; }
+        if (!business) { document.getElementById('wel2-business-wrap').classList.add('error'); hasError = true; }
+    }
+
+    if (!hasError) {
+        go(2);
+    }
 }
 
 function validateWelcome3() {
