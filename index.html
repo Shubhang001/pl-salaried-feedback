@@ -207,26 +207,26 @@
 
 <!-- Pre-journey: First Screen (Splash) -->
 <div class="screen active" id="pre1">
-    <div class="cnt" style="padding-top:40px;align-items:center;text-align:left">
-        <h1 style="font-size:22px;font-weight:800;line-height:1.3;padding:0 20px">Making Finance Accessible to Everyone</h1>
-        <p style="font-size:12px;color:var(--text-sec);margin-top:8px;padding:0 20px;line-height:1.6">Unlock possibilities with a personal loan designed for your needs.</p>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:30px 0">
-            <div style="width:260px;height:260px;border-radius:50%;background:linear-gradient(180deg,#1a2a3a,#0d1117);display:flex;align-items:center;justify-content:center;font-size:80px;position:relative">
-                👨‍💼
-                <span style="position:absolute;top:20px;left:10px;font-size:24px">✈️</span>
-                <span style="position:absolute;top:10px;right:20px;font-size:24px">💍</span>
-                <span style="position:absolute;bottom:30px;left:20px;font-size:24px">🏠</span>
-                <span style="position:absolute;bottom:20px;right:10px;font-size:24px">📚</span>
+    <div style="display:flex;flex-direction:column;height:100vh;background:var(--bg)">
+        <!-- Banner -->
+        <div id="splash-banner" style="flex:1;overflow:hidden;position:relative;touch-action:pan-y">
+            <div id="splash-track" style="display:flex;height:100%;transition:transform 0.4s ease">
+                <div style="min-width:100%;height:100%"><img src="assets/first flash.jpg" alt="Making Finance Accessible to Everyone" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+                <div style="min-width:100%;height:100%"><img src="assets/second flash.jpg" alt="Track your Credit Report for Free!" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+                <div style="min-width:100%;height:100%"><img src="assets/third flash.jpg" alt="Start Small, Think BIG!" style="width:100%;height:100%;object-fit:cover;display:block"></div>
             </div>
         </div>
-        <div style="display:flex;gap:20px;justify-content:center;margin-bottom:20px">
-            <div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px">🪪</div><p style="font-size:11px;color:var(--text-sec)">Paperless<br>Process</p></div>
-            <div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px">💰</div><p style="font-size:11px;color:var(--text-sec)">Attractive<br>Interest rates</p></div>
-            <div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px">🏦</div><p style="font-size:11px;color:var(--text-sec)">Hassle-free<br>Disbursal</p></div>
+        <!-- Dots -->
+        <div style="display:flex;gap:8px;justify-content:center;padding:16px 0 12px">
+            <span class="splash-dot active" style="width:10px;height:10px;border-radius:50%;background:var(--blue);transition:background 0.3s"></span>
+            <span class="splash-dot" style="width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.3s"></span>
+            <span class="splash-dot" style="width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.3s"></span>
         </div>
-        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:16px"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span><span style="width:8px;height:8px;border-radius:50%;background:var(--border)"></span><span style="width:8px;height:8px;border-radius:50%;background:var(--border)"></span></div>
+        <!-- Sticky CTA -->
+        <div style="padding:0 20px 24px">
+            <button class="cta" style="background:linear-gradient(90deg,#2196F3,#64B5F6)" onclick="goP('pre2')">Check My Eligibility</button>
+        </div>
     </div>
-    <div class="ftr"><button class="cta" style="background:linear-gradient(90deg,#2196F3,#64B5F6)" onclick="goP('pre2')">Get Started</button></div>
 </div>
 
 <!-- Pre-journey: Mobile Enter Page -->
@@ -1672,6 +1672,101 @@ document.addEventListener('DOMContentLoaded', () => {
     // S16 submit rating disabled until stars clicked
     const s16btn = document.querySelector('#s16 .ftr .cta');
     if (s16btn) s16btn.disabled = true;
+
+    // Splash Banner Auto-Scroll
+    (function() {
+        var track = document.getElementById('splash-track');
+        var banner = document.getElementById('splash-banner');
+        if (!track || !banner) return;
+        var dots = document.querySelectorAll('.splash-dot');
+        var current = 0;
+        var total = 3;
+        var interval = 2000;
+        var timer = null;
+        var startX = 0;
+        var deltaX = 0;
+        var isSwiping = false;
+
+        function goToSlide(n) {
+            current = ((n % total) + total) % total;
+            track.style.transform = 'translateX(-' + (current * 100) + '%)';
+            dots.forEach(function(d, i) {
+                d.style.background = i === current ? 'var(--blue)' : 'var(--border)';
+            });
+        }
+
+        function startAutoScroll() {
+            stopAutoScroll();
+            timer = setInterval(function() { goToSlide(current + 1); }, interval);
+        }
+
+        function stopAutoScroll() {
+            if (timer) { clearInterval(timer); timer = null; }
+        }
+
+        // Touch events for swipe
+        banner.addEventListener('touchstart', function(e) {
+            isSwiping = true;
+            startX = e.touches[0].clientX;
+            deltaX = 0;
+            stopAutoScroll();
+            track.style.transition = 'none';
+        }, { passive: true });
+
+        banner.addEventListener('touchmove', function(e) {
+            if (!isSwiping) return;
+            deltaX = e.touches[0].clientX - startX;
+            var offset = -(current * banner.offsetWidth) + deltaX;
+            track.style.transform = 'translateX(' + offset + 'px)';
+        }, { passive: true });
+
+        banner.addEventListener('touchend', function() {
+            if (!isSwiping) return;
+            isSwiping = false;
+            track.style.transition = 'transform 0.4s ease';
+            if (deltaX < -50) { goToSlide(current + 1); }
+            else if (deltaX > 50) { goToSlide(current - 1); }
+            else { goToSlide(current); }
+            startAutoScroll();
+        });
+
+        // Mouse events for swipe (desktop testing)
+        banner.addEventListener('mousedown', function(e) {
+            isSwiping = true;
+            startX = e.clientX;
+            deltaX = 0;
+            stopAutoScroll();
+            track.style.transition = 'none';
+            e.preventDefault();
+        });
+
+        banner.addEventListener('mousemove', function(e) {
+            if (!isSwiping) return;
+            deltaX = e.clientX - startX;
+            var offset = -(current * banner.offsetWidth) + deltaX;
+            track.style.transform = 'translateX(' + offset + 'px)';
+        });
+
+        banner.addEventListener('mouseup', function() {
+            if (!isSwiping) return;
+            isSwiping = false;
+            track.style.transition = 'transform 0.4s ease';
+            if (deltaX < -50) { goToSlide(current + 1); }
+            else if (deltaX > 50) { goToSlide(current - 1); }
+            else { goToSlide(current); }
+            startAutoScroll();
+        });
+
+        banner.addEventListener('mouseleave', function() {
+            if (!isSwiping) return;
+            isSwiping = false;
+            track.style.transition = 'transform 0.4s ease';
+            goToSlide(current);
+            startAutoScroll();
+        });
+
+        startAutoScroll();
+    })();
 });
 </script>
 </body>
