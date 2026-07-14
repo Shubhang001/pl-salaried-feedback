@@ -83,11 +83,9 @@
         .pitem .pl { font-size: 9px; text-align: center; color: var(--text-sec); line-height: 1.3; }
 
         /* Offer Banner */
-        .offer-banner { background: linear-gradient(135deg, #0d2a40, #1a3a5c); border-radius: 12px; padding: 14px; border: 1px solid rgba(46,139,239,0.3); margin-bottom: 3px; }
-        .offer-banner .ob-amount { font-size: 24px; font-weight: 800; color: var(--cyan); margin: 4px 0; }
-        .offer-banner .ob-meter { width: 100%; height: 5px; border-radius: 3px; background: var(--border); margin: 8px 0 6px; overflow: hidden; }
-        .offer-banner .ob-meter-fill { height: 100%; width: 15%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--cyan)); transition: width 0.5s ease; }
-        .offer-banner .ob-nudge { font-size: 10px; color: var(--text-sec); line-height: 1.5; }
+        .offer-banner { background: linear-gradient(135deg, #0d2a40, #1a3a5c); border-radius: 12px; padding: 10px; border: 1px solid rgba(46,139,239,0.3); margin-bottom: 3px; }
+        .offer-banner .ob-amount { font-size: 17px; font-weight: 800; color: var(--cyan); margin: 3px 0; }
+        .offer-banner .ob-nudge { font-size: 9px; color: var(--text-sec); line-height: 1.4; }
 
         /* Checkbox */
         .chk-row { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; cursor: pointer; }
@@ -158,9 +156,8 @@
 
         <!-- Offer Banner -->
         <div class="offer-banner">
-            <p style="font-size:18px;margin-bottom:2px">&#127881;</p>
+            <p style="font-size:14px;margin-bottom:2px">&#127881;</p>
             <p class="ob-amount">You could get up to &#8377;10,00,000</p>
-            <div class="ob-meter"><div class="ob-meter-fill" id="ob-fill"></div></div>
             <p class="ob-nudge">Fill in the details below to see your personalised offer. You're closer than you think!</p>
         </div>
 
@@ -187,14 +184,11 @@
             <button class="chip" onclick="selectChipIn(this,'ibd-salary-mode-chips')">Cheque</button>
         </div>
 
-        <!-- 6. Monthly Income -->
-        <div class="inp"><label>Monthly Income</label><input id="ibd-income" type="text" placeholder="" oninput="formatIBDCurrency(this);validateIBD();updateOfferMeter()"></div>
+        <!-- 6. Monthly Income - REMOVED -->
 
-        <!-- 7. In which bank account do you get your income? -->
-        <div class="inp"><label>In which bank account do you get your income?</label><select id="ibd-income-bank" onchange="validateIBD();updateOfferMeter()" style="appearance:auto"><option value="">-- Select Bank --</option><option>HDFC Bank</option><option>State Bank of India</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Mahindra Bank</option><option>Punjab National Bank</option><option>Bank of Baroda</option><option>Canara Bank</option><option>Union Bank of India</option><option>IndusInd Bank</option><option>Yes Bank</option><option>IDBI Bank</option></select></div>
+        <!-- 7. In which bank account do you get your income? - REMOVED -->
 
-        <!-- 8. How much EMI do you currently pay? -->
-        <div class="inp"><label>How much EMI do you currently pay?</label><input id="ibd-current-emi" type="text" placeholder="" oninput="formatIBDCurrency(this);validateIBD();updateOfferMeter()"></div>
+        <!-- 8. How much EMI do you currently pay? - REMOVED -->
 
         <!-- 9. Required Loan Amount -->
         <div class="inp"><label>Required Loan Amount</label><input id="ibd-loan-amount" type="text" placeholder="" oninput="formatIBDCurrency(this);validateIBD();updateOfferMeter()"></div>
@@ -207,14 +201,7 @@
             <button class="chip" onclick="selectChipIn(this,'ibd-living-chips')">Hostel / PG</button>
         </div>
 
-        <!-- 11. Highest educational qualification -->
-        <p class="sec-title">Highest educational qualification</p>
-        <div class="chips" style="margin-bottom:14px" id="ibd-edu-chips">
-            <button class="chip" onclick="selectChipIn(this,'ibd-edu-chips')">Matriculate</button>
-            <button class="chip" onclick="selectChipIn(this,'ibd-edu-chips')">Intermediate</button>
-            <button class="chip" onclick="selectChipIn(this,'ibd-edu-chips')">Bachelors</button>
-            <button class="chip" onclick="selectChipIn(this,'ibd-edu-chips')">Masters</button>
-        </div>
+        <!-- 11. Highest educational qualification - REMOVED -->
 
         <!-- 12. Purpose of loan -->
         <p class="sec-title">Purpose of taking the loan</p>
@@ -344,37 +331,17 @@ function validateIBD() {
     var industry = document.getElementById('ibd-industry').value;
     var email = document.getElementById('ibd-email').value.trim();
     var hasSalaryMode = document.querySelector('#ibd-salary-mode-chips .chip.sel') !== null;
-    var income = document.getElementById('ibd-income').value.trim();
-    var incomeBank = document.getElementById('ibd-income-bank').value;
-    var currentEmi = document.getElementById('ibd-current-emi').value.trim();
     var loanAmount = document.getElementById('ibd-loan-amount').value.trim();
     var hasLiving = document.querySelector('#ibd-living-chips .chip.sel') !== null;
-    var hasEdu = document.querySelector('#ibd-edu-chips .chip.sel') !== null;
     var hasPurpose = document.querySelector('.pitem.sel') !== null;
 
-    var valid = company && industry && email && hasSalaryMode && income && incomeBank && currentEmi && loanAmount && hasLiving && hasEdu && hasPurpose;
+    var valid = company && industry && email && hasSalaryMode && loanAmount && hasLiving && hasPurpose;
     document.getElementById('ibd-cta').disabled = !valid;
 }
 
 // Update offer meter based on filled fields
 function updateOfferMeter() {
-    var filled = 0;
-    var total = 11;
-
-    if (document.getElementById('ibd-company').value.trim()) filled++;
-    if (document.getElementById('ibd-industry').value) filled++;
-    if (document.getElementById('ibd-email').value.trim()) filled++;
-    if (document.querySelector('#ibd-salary-mode-chips .chip.sel')) filled++;
-    if (document.getElementById('ibd-income').value.trim()) filled++;
-    if (document.getElementById('ibd-income-bank').value) filled++;
-    if (document.getElementById('ibd-current-emi').value.trim()) filled++;
-    if (document.getElementById('ibd-loan-amount').value.trim()) filled++;
-    if (document.querySelector('#ibd-living-chips .chip.sel')) filled++;
-    if (document.querySelector('#ibd-edu-chips .chip.sel')) filled++;
-    if (document.querySelector('.pitem.sel')) filled++;
-
-    var pct = Math.min(Math.round((filled / total) * 100), 100);
-    document.getElementById('ob-fill').style.width = pct + '%';
+    // Meter removed - no-op
 }
 
 // Initial state
