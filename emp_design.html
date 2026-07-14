@@ -140,7 +140,6 @@
         <!-- Salaried extra fields -->
         <div id="wel-salaried-fields" style="display:none;width:100%;margin-top:4px">
             <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel-income" placeholder="" oninput="formatWelIncome(this);validateWelcomeForm()"></div>
-            <div class="inp" style="width:100%"><label style="background:var(--bg)">Company Name</label><input id="wel-company" placeholder="" oninput="validateWelcomeForm()"></div>
         </div>
         <!-- Self-employed / Other extra fields -->
         <div id="wel-self-fields" style="display:none;width:100%;margin-top:4px">
@@ -298,7 +297,7 @@ function validateWelcomeForm() {
     var hasEmp = empType !== '';
     var extraOk = true;
     if (empType === 'salaried') {
-        extraOk = document.getElementById('wel-income').value.trim() && document.getElementById('wel-company').value.trim();
+        extraOk = !!document.getElementById('wel-income').value.trim();
     } else if (empType === 'self' || empType === 'other') {
         extraOk = document.getElementById('wel-self-income').value.trim() && document.getElementById('wel-business').value.trim();
     }
