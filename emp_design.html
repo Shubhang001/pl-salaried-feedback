@@ -38,7 +38,9 @@
             position: relative;
             overflow-x: hidden;
         }
-        .screen { display: flex; min-height: 100vh; flex-direction: column; }
+        .screen { display: none; min-height: 100vh; flex-direction: column; animation: slideIn 0.3s ease; }
+        .screen.active { display: flex; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 
         /* Header */
         .hdr { display: flex; align-items: center; padding: 20px 20px 12px; gap: 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; min-height: 64px; }
@@ -105,10 +107,54 @@
 <body>
 <div class="phone">
 
+<!-- Welcome Form Screen -->
+<div class="screen active" id="welcome-screen">
+    <div class="hdr" style="position:relative"><button class="back" onclick="history.back()">&#8592;</button><h1>Welcome to DMI Finance!</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
+    <div class="cnt" style="padding-top:16px;align-items:center;gap:8px">
+        <div style="font-size:50px;margin-bottom:8px">&#x1F4F1;</div>
+        <h2 style="font-size:19px;font-weight:800;text-align:center">Welcome to DMI Finance!</h2>
+        <p style="font-size:11px;color:var(--text-sec);text-align:center;margin-top:4px;margin-bottom:16px">Tell us a bit about yourself</p>
+
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">First Name</label><input id="wel-fname" placeholder="" oninput="validateWelcomeForm()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Last Name</label><input id="wel-lname" placeholder="" oninput="validateWelcomeForm()"></div>
+        </div>
+
+        <p style="font-size:12px;font-weight:600;width:100%;margin-bottom:7px">Gender</p>
+        <div style="display:flex;gap:8px;width:100%;margin-bottom:12px">
+            <div class="wel-gender" onclick="selectWelGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:0.2s"><span style="font-size:16px;color:var(--blue)">&#9794;</span><span style="font-size:10px;margin-top:3px">Male</span></div>
+            <div class="wel-gender" onclick="selectWelGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:0.2s"><span style="font-size:16px;color:var(--blue)">&#9792;</span><span style="font-size:10px;margin-top:3px">Female</span></div>
+            <div class="wel-gender" onclick="selectWelGender(this)" style="flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:0.2s"><span style="font-size:16px;color:var(--blue)">&#9895;</span><span style="font-size:10px;margin-top:3px">Other</span></div>
+        </div>
+
+        <div style="display:flex;gap:10px;width:100%;margin-bottom:10px">
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">PAN</label><input id="wel-pan" placeholder="" maxlength="10" oninput="validateWelcomeForm()"></div>
+            <div class="inp" style="flex:1;margin-bottom:0"><label style="background:var(--bg)">Date of Birth</label><input id="wel-dob" placeholder="dd/mm/yyyy" maxlength="10" oninput="formatWelDOB(this);validateWelcomeForm()"><span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px">&#x1F4C5;</span></div>
+        </div>
+
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Current Pincode</label><input id="wel-pincode" placeholder="" maxlength="6" oninput="validateWelcomeForm()"></div>
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Email ID</label><input id="wel-email" type="email" placeholder="" oninput="validateWelcomeForm()"></div>
+
+        <div class="inp" style="width:100%"><label style="background:var(--bg)">Employment Type</label><select id="wel-emp-type" onchange="handleWelEmpChange(this);validateWelcomeForm()" style="appearance:auto"><option value="">-- Select --</option><option value="salaried">Salaried</option><option value="self">Self-employed / Professional</option><option value="other">Other</option></select></div>
+
+        <!-- Salaried extra fields -->
+        <div id="wel-salaried-fields" style="display:none;width:100%;margin-top:4px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Income</label><input id="wel-income" placeholder="" oninput="formatWelIncome(this);validateWelcomeForm()"></div>
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Company Name</label><input id="wel-company" placeholder="" oninput="validateWelcomeForm()"></div>
+        </div>
+        <!-- Self-employed / Other extra fields -->
+        <div id="wel-self-fields" style="display:none;width:100%;margin-top:4px">
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Monthly Salary</label><input id="wel-self-income" placeholder="" oninput="formatWelIncome(this);validateWelcomeForm()"></div>
+            <div class="inp" style="width:100%"><label style="background:var(--bg)">Business Name</label><input id="wel-business" placeholder="" oninput="validateWelcomeForm()"></div>
+        </div>
+    </div>
+    <div class="ftr"><button class="cta" id="wel-proceed-btn" onclick="goToScreen('s-income-biz')" disabled>Setup my Profile</button></div>
+</div>
+
 <!-- Income & Business Details Screen -->
 <div class="screen" id="s-income-biz">
     <div class="hdr" style="position:relative"><button class="back" onclick="history.back()">&#8592;</button><h1>Tell us about your work</h1><div class="helpline"><img src="assets/needhelp.png" alt="Help"></div></div>
-    <div class="prog"><span class="done"></span><span class="done"></span><span class="half"></span><span></span><span></span></div>
+    <div class="prog"><span class="half"></span><span></span><span></span><span></span><span></span></div>
     <div class="cnt">
 
         <!-- Offer Banner -->
@@ -192,6 +238,74 @@
 </div>
 
 <script>
+// Screen navigation
+function goToScreen(id) {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// Welcome Form - Gender selection
+function selectWelGender(el) {
+    document.querySelectorAll('.wel-gender').forEach(function(g) {
+        g.style.borderColor = 'var(--border)';
+        g.style.background = 'transparent';
+        g.classList.remove('sel');
+    });
+    el.style.borderColor = 'var(--cyan)';
+    el.style.background = 'rgba(46,139,239,0.1)';
+    el.classList.add('sel');
+    validateWelcomeForm();
+}
+
+// Welcome Form - DOB format
+function formatWelDOB(el) {
+    var val = el.value.replace(/[^0-9]/g, '');
+    if (val.length > 8) val = val.substring(0, 8);
+    if (val.length >= 5) { val = val.substring(0,2) + '/' + val.substring(2,4) + '/' + val.substring(4); }
+    else if (val.length >= 3) { val = val.substring(0,2) + '/' + val.substring(2); }
+    el.value = val;
+}
+
+// Welcome Form - Income format
+function formatWelIncome(el) {
+    var val = el.value.replace(/[^0-9]/g, '');
+    if (val.length > 0) { el.value = '\u20B9' + parseInt(val).toLocaleString('en-IN'); }
+    else { el.value = ''; }
+}
+
+// Welcome Form - Employment type change
+function handleWelEmpChange(sel) {
+    var type = sel.value;
+    var salFields = document.getElementById('wel-salaried-fields');
+    var selfFields = document.getElementById('wel-self-fields');
+    if (type === 'salaried') { salFields.style.display = 'block'; selfFields.style.display = 'none'; }
+    else if (type === 'self' || type === 'other') { salFields.style.display = 'none'; selfFields.style.display = 'block'; }
+    else { salFields.style.display = 'none'; selfFields.style.display = 'none'; }
+    validateWelcomeForm();
+}
+
+// Welcome Form - Validation
+function validateWelcomeForm() {
+    var fname = document.getElementById('wel-fname').value.trim();
+    var lname = document.getElementById('wel-lname').value.trim();
+    var pan = document.getElementById('wel-pan').value.trim();
+    var dob = document.getElementById('wel-dob').value.trim();
+    var pin = document.getElementById('wel-pincode').value.trim();
+    var email = document.getElementById('wel-email').value.trim();
+    var hasGender = document.querySelector('.wel-gender.sel') !== null;
+    var empType = document.getElementById('wel-emp-type').value;
+    var hasEmp = empType !== '';
+    var extraOk = true;
+    if (empType === 'salaried') {
+        extraOk = document.getElementById('wel-income').value.trim() && document.getElementById('wel-company').value.trim();
+    } else if (empType === 'self' || empType === 'other') {
+        extraOk = document.getElementById('wel-self-income').value.trim() && document.getElementById('wel-business').value.trim();
+    }
+    var valid = fname && lname && pan && dob.length === 10 && pin && email && hasGender && hasEmp && extraOk;
+    document.getElementById('wel-proceed-btn').disabled = !valid;
+}
+
 // Chip single-select within a group
 function selectChipIn(el, groupId) {
     var container = document.getElementById(groupId);
